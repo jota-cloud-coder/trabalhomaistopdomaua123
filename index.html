@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Israel e Palestina — Linha do Tempo Territorial</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;
+  background:#0d1117;color:#f0f3f6;
+}
+header{
+  padding:28px 18px;text-align:center;
+  background:linear-gradient(135deg,#111827,#172033);
+  border-bottom:1px solid #30363d;
+}
+h1{margin:0 0 8px;font-size:clamp(24px,5vw,42px)}
+header p{margin:0;color:#b9c2ce}
+.container{max-width:1050px;margin:auto;padding:22px 16px}
+.card{
+  background:#151b24;border:1px solid #303846;border-radius:18px;
+  padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #0004;
+}
+.year{text-align:center;font-size:34px;font-weight:800;margin:5px 0}
+.subtitle{text-align:center;color:#b9c2ce;min-height:24px}
+.map-wrap{
+  width:100%;max-width:600px;margin:20px auto 12px;
+  aspect-ratio:1/1.05;background:#0b0f14;border-radius:15px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+svg{width:92%;height:92%}
+.land{fill:#d8c7a0;stroke:#f5ead0;stroke-width:2}
+.israel{fill:#4da3ff}
+.palestine{fill:#55c271}
+.disputed{fill:#e6b84d}
+.empty{fill:#46505c}
+.label{font-size:13px;font-weight:bold;fill:#fff;paint-order:stroke;stroke:#000;stroke-width:4px;stroke-linejoin:round}
+button{
+  border:0;border-radius:10px;padding:11px 16px;font-weight:bold;
+  cursor:pointer;background:#238636;color:white;font-size:15px;
+}
+button.secondary{background:#30363d}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+input[type=range]{width:100%;accent-color:#4da3ff}
+.range-row{margin:22px 0 10px}
+.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;color:#c8d0da}
+.dot{width:13px;height:13px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-2px}
+.note{font-size:13px;line-height:1.5;color:#aeb8c5}
+.timeline{
+ display:flex;justify-content:space-between;gap:5px;overflow-x:auto;padding:10px 0;
+}
+.timeline button{min-width:74px;background:#30363d}
+.timeline button.active{background:#1f6feb}
+h2{margin-top:0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Israel e Palestina</h1>
+  <p>Linha do tempo das principais mudanças territoriais</p>
+</header>
+
+<main class="container">
+  <section class="card">
+    <div class="year" id="year">1947</div>
+    <div class="subtitle" id="subtitle"></div>
+
+    <div class="map-wrap">
+      <svg viewBox="0 0 500 530" aria-label="Mapa esquemático">
+        <!-- contorno ilustrativo da região -->
+        <path class="land" d="M180 38 L285 55 L350 105 L365 175 L405 235 L380 315
+          L415 390 L355 475 L260 495 L195 455 L165 390 L120 345 L135 275
+          L105 210 L135 145 L145 80 Z"/>
+        <path id="areaIsrael" class="israel" d="M180 70 L270 82 L315 125 L305 180
+          L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290
+          L180 230 L155 175 L170 125 Z"/>
+        <path id="areaPalestina" class="palestine" d="M145 185 L178 190 L185 245
+          L170 300 L145 285 L135 230 Z"/>
+        <path id="gaza" class="palestine" d="M115 300 L145 305 L145 340 L112 335 Z"/>
+        <text class="label" x="230" y="220">Israel</text>
+        <text class="label" x="140" y="260">Cisjordânia</text>
+        <text class="label" x="118" y="325">Gaza</text>
+      </svg>
+    </div>
+
+    <div class="legend">
+      <span><i class="dot" style="background:#4da3ff"></i>Israel</span>
+      <span><i class="dot" style="background:#55c271"></i>Territórios palestinos</span>
+      <span><i class="dot" style="background:#e6b84d"></i>Área em disputa/controle variável</span>
+    </div>
+
+    <div class="range-row">
+      <input id="slider" type="range" min="0" max="5" value="0" step="1">
+    </div>
+
+    <div class="timeline" id="timeline"></div>
+    <div class="controls">
+      <button id="play">▶ Reproduzir</button>
+      <button class="secondary" id="prev">← Anterior</button>
+      <button class="secondary" id="next">Próximo →</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 id="title">1947 — Plano de Partilha da ONU</h2>
+    <p id="description"></p>
+    <p class="note">
+      <strong>Importante:</strong> este mapa é uma representação visual simplificada,
+      não um mapa cartográfico de fronteiras. “Controle” e “território” são conceitos
+      diferentes e mudaram em períodos distintos. A linha do tempo destaca eventos
+      históricos importantes sem afirmar uma única interpretação política do conflito.
+    </p>
+  </section>
+</main>
+
+<script>
+const events=[
+ {year:1947,title:"1947 — Plano de Partilha da ONU",
+  desc:"A Assembleia Geral da ONU aprovou a Resolução 181, que recomendava a criação de um Estado judeu e de um Estado árabe, com um regime internacional para Jerusalém. O plano não foi implementado como proposto.",
+  israel:"partilha", palestina:"partilha"},
+ {year:1949,title:"1949 — Armistícios após a guerra de 1948",
+  desc:"Os acordos de armistício de 1949 estabeleceram as linhas que ficaram conhecidas como Linha Verde. Israel controlava uma área maior do que a prevista no plano de partilha de 1947. A Cisjordânia ficou sob controle jordaniano e Gaza sob administração egípcia.",
+  israel:"1949", palestina:"1949"},
+ {year:1967,title:"1967 — Guerra dos Seis Dias",
+  desc:"Israel passou a controlar a Cisjordânia, Jerusalém Oriental, Gaza, a Península do Sinai e as Colinas de Golã. O Sinai foi posteriormente devolvido ao Egito no contexto do tratado de paz de 1979.",
+  israel:"1967", palestina:"1967"},
+ {year:1993,title:"1993 — Acordos de Oslo",
+  desc:"Os Acordos de Oslo iniciaram um processo de autogoverno palestino limitado e reorganizaram partes da Cisjordânia em diferentes áreas administrativas. O processo não resolveu definitivamente as questões de fronteiras e status final.",
+  israel:"oslo", palestina:"oslo"},
+ {year:2005,title:"2005 — Retirada israelense de Gaza",
+  desc:"Israel retirou assentamentos e forças militares permanentes de dentro da Faixa de Gaza em 2005. O Hamas assumiu o controle interno da faixa em 2007, enquanto Israel e Egito mantiveram diferentes formas de controle sobre acessos e fronteiras.",
+  israel:"2005", palestina:"2005"},
+ {year:2026,title:"2026 — Situação contemporânea",
+  desc:"A situação territorial e política permanece complexa, com Israel, a Autoridade Palestina e outros atores exercendo diferentes níveis de controle e administração em áreas distintas. O status definitivo de vários territórios continua sendo objeto de disputa.",
+  israel:"2026", palestina:"2026"}
+];
+
+const slider=document.getElementById("slider");
+const year=document.getElementById("year");
+const subtitle=document.getElementById("subtitle");
+const title=document.getElementById("title");
+const description=document.getElementById("description");
+const timeline=document.getElementById("timeline");
+const play=document.getElementById("play");
+let timer=null;
+
+events.forEach((e,i)=>{
+ const b=document.createElement("button");
+ b.textContent=e.year;
+ b.onclick=()=>show(i);
+ timeline.appendChild(b);
+});
+
+function show(i){
+ slider.value=i;
+ const e=events[i];
+ year.textContent=e.year;
+ subtitle.textContent=e.title.split(" — ")[1];
+ title.textContent=e.title;
+ description.textContent=e.desc;
+ document.querySelectorAll(".timeline button").forEach((b,j)=>b.classList.toggle("active",j===i));
+
+ const a=document.getElementById("areaIsrael");
+ const p=document.getElementById("areaPalestina");
+ const g=document.getElementById("gaza");
+
+ // Mudanças VISUAIS esquemáticas para comunicar a evolução sem fingir precisão cartográfica.
+ if(i===0){a.setAttribute("d","M210 95 L270 105 L300 140 L285 185 L305 220 L280 260 L220 250 L205 210 L185 170 L195 125 Z"); p.style.opacity=1; g.style.opacity=1}
+ if(i===1){a.setAttribute("d","M175 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=1; g.style.opacity=1}
+ if(i===2){a.setAttribute("d","M155 62 L290 72 L335 115 L330 185 L365 240 L340 315 L355 390 L300 440 L205 420 L190 345 L160 290 L165 220 L140 160 Z"); p.style.opacity=.65; g.style.opacity=.65}
+ if(i===3){a.setAttribute("d","M180 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=.8; g.style.opacity=.8}
+ if(i===4){a.setAttribute("d","M180 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=1; g.style.opacity=1}
+ if(i===5){a.setAttribute("d","M180 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=1; g.style.opacity=1}
+}
+slider.oninput=()=>show(Number(slider.value));
+document.getElementById("prev").onclick=()=>show((Number(slider.value)+events.length-1)%events.length);
+document.getElementById("next").onclick=()=>show((Number(slider.value)+1)%events.length);
+play.onclick=()=>{
+ if(timer){clearInterval(timer);timer=null;play.textContent="▶ Reproduzir"}
+ else{play.textContent="⏸ Pausar";timer=setInterval(()=>show((Number(slider.value)+1)%events.length),2200)}
+};
+show(0);
+</script>
+</body>
+</html>
