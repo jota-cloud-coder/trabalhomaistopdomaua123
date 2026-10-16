@@ -1,186 +1,290 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Israel e Palestina — Linha do Tempo Territorial</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101a2b">
+<title>Israel e Palestina — Atlas Histórico</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;font-family:Arial,Helvetica,sans-serif;
-  background:#0d1117;color:#f0f3f6;
-}
-header{
-  padding:28px 18px;text-align:center;
-  background:linear-gradient(135deg,#111827,#172033);
-  border-bottom:1px solid #30363d;
-}
-h1{margin:0 0 8px;font-size:clamp(24px,5vw,42px)}
-header p{margin:0;color:#b9c2ce}
-.container{max-width:1050px;margin:auto;padding:22px 16px}
-.card{
-  background:#151b24;border:1px solid #303846;border-radius:18px;
-  padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #0004;
-}
-.year{text-align:center;font-size:34px;font-weight:800;margin:5px 0}
-.subtitle{text-align:center;color:#b9c2ce;min-height:24px}
-.map-wrap{
-  width:100%;max-width:600px;margin:20px auto 12px;
-  aspect-ratio:1/1.05;background:#0b0f14;border-radius:15px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-svg{width:92%;height:92%}
-.land{fill:#d8c7a0;stroke:#f5ead0;stroke-width:2}
-.israel{fill:#4da3ff}
-.palestine{fill:#55c271}
-.disputed{fill:#e6b84d}
-.empty{fill:#46505c}
-.label{font-size:13px;font-weight:bold;fill:#fff;paint-order:stroke;stroke:#000;stroke-width:4px;stroke-linejoin:round}
-button{
-  border:0;border-radius:10px;padding:11px 16px;font-weight:bold;
-  cursor:pointer;background:#238636;color:white;font-size:15px;
-}
-button.secondary{background:#30363d}
-.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-input[type=range]{width:100%;accent-color:#4da3ff}
-.range-row{margin:22px 0 10px}
-.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;color:#c8d0da}
-.dot{width:13px;height:13px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-2px}
-.note{font-size:13px;line-height:1.5;color:#aeb8c5}
-.timeline{
- display:flex;justify-content:space-between;gap:5px;overflow-x:auto;padding:10px 0;
-}
-.timeline button{min-width:74px;background:#30363d}
-.timeline button.active{background:#1f6feb}
-h2{margin-top:0}
+:root{color-scheme:dark;--bg:#0b1220;--panel:#121d30;--line:#2a3a52;--text:#edf3fb;--muted:#9eafc5;--gold:#e5bd73}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#203653 0,transparent 52%),var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer}.wrap{width:min(1240px,calc(100% - 32px));margin:auto}
+header{padding:34px 0 22px;border-bottom:1px solid #ffffff12}.topline{display:flex;justify-content:space-between;align-items:center;gap:18px}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.19em;text-transform:uppercase;font-weight:800}.live{border:1px solid #ffffff20;background:#ffffff08;border-radius:99px;padding:7px 11px;color:var(--muted);font-size:12px;white-space:nowrap}.live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#7ac9a5;margin-right:7px}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.02;letter-spacing:-.045em;margin:15px 0 12px;max-width:850px}h1 span{color:var(--gold)}.intro{color:var(--muted);max-width:760px;margin:0;font-size:16px}
+main{padding:25px 0 52px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:0 0 14px}.section-head h2{font-size:19px;letter-spacing:-.02em;margin:0}.section-head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(290px,.8fr);gap:16px;align-items:stretch}.panel{background:linear-gradient(145deg,#152239f5,#101a2af5);border:1px solid var(--line);border-radius:19px;overflow:hidden;box-shadow:0 18px 55px #0002}
+.map-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}.map-label{font-size:13px;font-weight:750}.map-label small{display:block;font-size:11px;color:var(--muted);font-weight:500}.controls{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.btn{border:1px solid #35465e;background:#1b2b43;color:#eaf1fa;border-radius:10px;padding:8px 11px;font-size:12px;transition:background .2s,border-color .2s,transform .2s}.btn:hover{background:#293d58;border-color:#637995;transform:translateY(-1px)}.btn.primary{background:var(--gold);color:#192234;border-color:var(--gold);font-weight:800}
+#map{height:530px;width:100%;min-width:0;background:#dce5e8}.map-body{display:grid;grid-template-columns:minmax(0,1fr) 205px;align-items:stretch}.map-resizer{display:none}
+.legend-side{padding:16px 14px;background:#0e1929;border-left:1px solid var(--line);min-width:0}
+.legend-side h3{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+.legend-intro{font-size:11px;color:#8295ad;margin:0 0 14px;line-height:1.45}
+.legend-list{display:flex;flex-direction:column;gap:12px}
+.legend-item{display:grid;grid-template-columns:17px minmax(0,1fr);gap:8px;align-items:start;font-size:12px;line-height:1.35;color:#d9e4f1}
+.legend-swatch{width:16px;height:16px;border-radius:4px;border:1px solid #ffffff8a;margin-top:1px}
+.legend-swatch.dashed{height:4px;border:0;border-top:2px dashed #f5f7fa;border-radius:0;margin-top:7px}
+.legend-item small{display:block;color:#8397af;font-size:10px;margin-top:3px;line-height:1.35}
+.map-foot{padding:11px 15px;color:var(--muted);font-size:11px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.map-foot a{color:#e5bd73;text-decoration:none}.map-foot a:hover{text-decoration:underline}.map-foot strong{color:#dce8f6}
+.timeline{padding:20px;display:flex;flex-direction:column;min-height:100%}.timeline-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.timeline-top h2{font-size:18px;margin:0}.counter{font-size:11px;color:var(--gold);border:1px solid #8e7448;border-radius:99px;padding:4px 8px;white-space:nowrap}
+.year{font-size:58px;letter-spacing:-.06em;font-weight:800;line-height:1.05;margin:23px 0 5px}.era{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:.13em;font-weight:800}.event-title{font-size:23px;line-height:1.2;letter-spacing:-.03em;margin:10px 0 12px}.description{color:#c0ccdb;font-size:14px;margin:0 0 18px}.context{border-top:1px solid var(--line);padding-top:15px;margin-top:auto}.context h3{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 9px}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{border:1px solid #344761;background:#1b2a40;color:#cbd9e9;padding:5px 8px;border-radius:7px;font-size:11px}
+.navrow{display:flex;align-items:center;gap:9px;margin-top:20px}.navrow .btn{padding:10px 13px}.navrow .primary{flex:1}.range{width:100%;accent-color:var(--gold);margin:19px 0 4px}.range-labels{display:flex;justify-content:space-between;color:#8497af;font-size:10px}
+.events{margin-top:27px}.event-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.event-card{background:#121e30;border:1px solid var(--line);border-radius:13px;padding:13px 12px;text-align:left;color:var(--text);min-height:111px;transition:.2s}.event-card:hover{border-color:#7e704e;transform:translateY(-2px)}.event-card.active{border-color:var(--gold);background:#292a2b}.event-card .mini-year{font-size:20px;font-weight:800;color:var(--gold)}.event-card .mini-title{display:block;font-size:12px;color:#c5d1df;line-height:1.35;margin-top:7px}
+footer{border-top:1px solid #ffffff12;color:#8192a8;padding:20px 0 30px;font-size:11px}.leaflet-control-attribution{font-size:9px!important}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#142238;color:#eef4fb}.leaflet-popup-content{font-size:13px}.leaflet-popup-content b{color:#f0ca84}.marker-dot{width:12px;height:12px;border-radius:50%;background:#e4b96e;border:2px solid white;box-shadow:0 0 0 5px #d7ac5a44}
+@media(max-width:900px){.layout{grid-template-columns:1fr}#map{height:430px}.timeline{min-height:unset}.event-strip{grid-template-columns:repeat(3,minmax(0,1fr))}.context{margin-top:15px}}
+@media(max-width:700px){.map-body{grid-template-columns:1fr}.legend-side{border-left:0;border-top:1px solid var(--line);padding:13px 14px}.legend-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.legend-intro{margin-bottom:10px}}
+@media(max-width:560px){.wrap{width:min(100% - 20px,1240px)}header{padding-top:25px}.topline{align-items:flex-start;flex-direction:column}.live{font-size:11px}.intro{font-size:14px}.section-head{align-items:start;flex-direction:column}.map-head{align-items:flex-start;flex-direction:column}.controls{justify-content:flex-start}.btn{padding:8px 9px}#map{height:390px}.year{font-size:49px}.event-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.event-card{min-height:94px}.legend-list{grid-template-columns:1fr 1fr}.legend-item{font-size:11px}}
+
+/* Refinamento visual */
+:root{--bg:#090d1b;--panel:#15182b;--line:#34314f;--text:#f7f4ff;--muted:#b4b0ca;--gold:#f5a7d6}
+body{background:radial-gradient(ellipse at 12% -8%,#522c65 0,transparent 38%),radial-gradient(ellipse at 90% 8%,#173e60 0,transparent 35%),var(--bg);background-attachment:fixed}
+header{border-bottom:1px solid #ffffff18;padding-top:38px}
+.eyebrow{color:#ff9fd7}
+h1 span{background:linear-gradient(90deg,#ff9fd7,#c5a6ff 55%,#86d9f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.live{backdrop-filter:blur(12px);background:#ffffff0b;border-color:#ffffff20}
+.live i{background:#ff8fcb;box-shadow:0 0 12px #ff8fcb88}
+.panel{background:linear-gradient(145deg,#1a1c33f5,#111729f5);border-color:#3a3558;border-radius:22px;box-shadow:0 22px 65px #0003;transition:border-color .25s,box-shadow .25s}
+.panel:hover{border-color:#65517e;box-shadow:0 25px 75px #0004}
+.map-head{background:linear-gradient(90deg,#ffffff06,transparent)}
+.btn{border-color:#45405f;background:#242641;border-radius:12px;transition:background .22s,border-color .22s,transform .22s,box-shadow .22s}
+.btn:hover{background:#343052;border-color:#a58ac8;transform:translateY(-2px);box-shadow:0 7px 18px #0002}
+.btn.primary{background:linear-gradient(120deg,#ff9fd7,#c5a6ff);color:#20132b;border:0;box-shadow:0 5px 18px #c68ed833}
+.legend-side{background:linear-gradient(180deg,#111729,#17162b);border-color:#37324f}
+.legend-list{gap:10px}
+.legend-item{padding:9px;border:1px solid #ffffff0d;border-radius:11px;background:#ffffff04;transition:transform .2s,background .2s}
+.legend-item:hover{transform:translateX(3px);background:#ffffff0a}
+.legend-swatch{border-radius:5px;box-shadow:0 0 0 2px #ffffff08}
+.map-foot a{color:#ffacd9}
+.timeline{background:radial-gradient(ellipse at 90% 0,#4b2b5a55,transparent 45%),linear-gradient(145deg,#1a1c33f5,#111729f5)}
+.year{background:linear-gradient(90deg,#ff9fd7,#c5a6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.era{color:#ffacd9}
+.counter{color:#ffb8df;border-color:#8f5b87;background:#ff9fd70b}
+.chip{border-color:#4c4167;background:#28233f;color:#e8dff6;border-radius:9px}
+.range{accent-color:#ff9fd7;cursor:grab;touch-action:pan-y}
+.range:active{cursor:grabbing}
+.event-card{border-color:#36324f;background:linear-gradient(145deg,#191d32,#121729);border-radius:15px;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s}
+.event-card:hover{border-color:#c18acb;transform:translateY(-4px);box-shadow:0 12px 26px #0003}
+.event-card.active{border-color:#ff9fd7;background:linear-gradient(145deg,#3a2443,#25213c);box-shadow:0 0 0 1px #ff9fd722,0 10px 24px #0002}
+.event-card .mini-year{color:#ffacd9}
+.leaflet-interactive{transition:fill-opacity .24s,stroke-opacity .24s}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#191a30;color:#f7f4ff;border:1px solid #55456f;box-shadow:0 14px 36px #0005}
+.leaflet-popup-content{line-height:1.55;min-width:190px}
+.leaflet-popup-content b{color:#ffacd9}
+.leaflet-popup-content .popup-meta{color:#b9b1d0;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.leaflet-popup-content .popup-row{padding-top:7px;margin-top:7px;border-top:1px solid #ffffff18}
+.leaflet-control-zoom a{background:#191a30!important;color:#fff!important;border-color:#45405f!important}
+.country-label{color:#263747;font:800 12px/1.1 Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.055em;text-align:center;white-space:nowrap;text-shadow:0 1px 0 #fff,1px 0 0 #fff,0 -1px 0 #fff,-1px 0 0 #fff,0 0 5px #fff;opacity:.92;pointer-events:none}
+.country-label.palestina{color:#76536c;font-size:11px}
+.country-label.israel{color:#8a5267;font-size:11px}
+@media(max-width:700px){.legend-item{padding:8px}.legend-list{gap:8px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+html{scroll-behavior:smooth}
+
+
+
+/* Paleta geral suavizada: tons de ardósia, sálvia e rosé antigo */
+:root{color-scheme:dark;--bg:#171a20;--panel:#22262d;--line:#3b4148;--text:#e9e7e2;--muted:#b2b3b0;--gold:#c9b6a2}
+body{background:radial-gradient(ellipse at 12% -8%,#35313a 0,transparent 40%),radial-gradient(ellipse at 90% 8%,#26353a 0,transparent 38%),var(--bg);background-attachment:fixed;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.eyebrow,.era,.map-foot a{color:#c9b6a2}
+h1 span{background:linear-gradient(90deg,#d3a9b7,#c5b6c9 55%,#a9c2c0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.live i{background:#a8bdb1;box-shadow:none}
+.panel,.timeline{background:linear-gradient(145deg,#252931f5,#1e2229f5);border-color:#3b4148;box-shadow:0 16px 42px #0002}
+.panel:hover{border-color:#59605f;box-shadow:0 18px 45px #0003}
+.btn{border-color:#4a5057;background:#30353d;color:#e9e7e2}
+.btn:hover{background:#3a4148;border-color:#7c8b86;box-shadow:none}
+.btn.primary{background:#c9b6a2;color:#29272a;border:1px solid #c9b6a2;box-shadow:none}
+.year{background:linear-gradient(90deg,#d3a9b7,#c5b6c9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.counter{color:#d8c6b4;border-color:#655d56;background:#c9b6a20c}
+.chip{border-color:#4b5057;background:#30343b;color:#deddd8}
+.range{accent-color:#c9b6a2}
+.event-card{border-color:#3b4148;background:linear-gradient(145deg,#252a31,#1e2229);box-shadow:none}
+.event-card:hover{border-color:#8a9b93;box-shadow:0 8px 20px #0002}
+.event-card.active{border-color:#b99aa9;background:linear-gradient(145deg,#39323a,#292a31);box-shadow:0 0 0 1px #b99aa911,0 8px 18px #0002}
+.event-card .mini-year{color:#c9b6a2}
+.legend-side{background:linear-gradient(180deg,#1d2229,#25272d);border-color:#3b4148}
+.legend-item{color:#e0dfda;background:#ffffff03}
+.legend-item:hover{background:#ffffff07}
+.legend-item small,.legend-intro{color:#a8aaa8}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#252a31;color:#e9e7e2;border-color:#4b5057;box-shadow:0 12px 30px #0003}
+.leaflet-popup-content b{color:#d3b4bf}
+.leaflet-popup-content .popup-meta{color:#b6b6b0}
+.leaflet-control-zoom a{background:#30353d!important;color:#eeeae4!important;border-color:#4a5057!important}
+footer{color:#a1a5a4}
+
+
+/* Tela cheia com divisória arrastável para ajustar mapa e legenda */
+#mapPanel:fullscreen{width:100vw;height:100vh;border-radius:0;display:flex;flex-direction:column;background:#22262d;overflow:hidden}
+#mapPanel:fullscreen .map-head{flex:0 0 auto}
+#mapPanel:fullscreen .map-body{flex:1;min-height:0;min-width:0;width:100%;grid-template-columns:minmax(0,var(--map-width,1fr)) 12px minmax(0,var(--legend-width,300px));overflow:hidden}
+#mapPanel:fullscreen #map{height:100%;min-height:0}
+#mapPanel:fullscreen .legend-side{overflow:auto;border-left:0;border-top:0;padding:18px}
+#mapPanel:fullscreen .map-resizer{display:flex;align-items:center;justify-content:center;cursor:col-resize;touch-action:none;background:#30353d;border-left:1px solid #4a5057;border-right:1px solid #4a5057;z-index:500}
+#mapPanel:fullscreen .map-resizer::after{content:"⋮";font-size:22px;line-height:1;color:#c9b6a2;letter-spacing:-4px}
+#mapPanel:fullscreen .map-resizer:hover,#mapPanel:fullscreen .map-resizer:focus{background:#454c53;outline:2px solid #c9b6a2;outline-offset:-2px}
+#mapPanel:fullscreen .map-foot{flex:0 0 auto}
+@media(max-width:700px){#mapPanel:fullscreen .map-body{grid-template-columns:minmax(0,var(--map-width,1fr)) 12px minmax(0,var(--legend-width,42vw))}#mapPanel:fullscreen .legend-list{display:flex;flex-direction:column}#mapPanel:fullscreen .legend-side{padding:10px}}
+@media (orientation:landscape) and (max-height:520px){#mapPanel:fullscreen .map-head{padding:7px 12px;gap:8px}#mapPanel:fullscreen .map-label{font-size:12px}#mapPanel:fullscreen .map-label small{font-size:10px}#mapPanel:fullscreen .btn{padding:6px 9px}#mapPanel:fullscreen .map-foot{padding:5px 10px;font-size:9px}#mapPanel:fullscreen .legend-side{padding:8px}#mapPanel:fullscreen .legend-side h3{font-size:10px}#mapPanel:fullscreen .legend-intro{margin-bottom:6px}#mapPanel:fullscreen .legend-item{padding:6px;font-size:10px}#mapPanel:fullscreen .legend-item small{font-size:9px}}
+
 </style>
 </head>
 <body>
-<header>
-  <h1>Israel e Palestina</h1>
-  <p>Linha do tempo das principais mudanças territoriais</p>
-</header>
-
-<main class="container">
-  <section class="card">
-    <div class="year" id="year">1947</div>
-    <div class="subtitle" id="subtitle"></div>
-
-    <div class="map-wrap">
-      <svg viewBox="0 0 500 530" aria-label="Mapa esquemático">
-        <!-- contorno ilustrativo da região -->
-        <path class="land" d="M180 38 L285 55 L350 105 L365 175 L405 235 L380 315
-          L415 390 L355 475 L260 495 L195 455 L165 390 L120 345 L135 275
-          L105 210 L135 145 L145 80 Z"/>
-        <path id="areaIsrael" class="israel" d="M180 70 L270 82 L315 125 L305 180
-          L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290
-          L180 230 L155 175 L170 125 Z"/>
-        <path id="areaPalestina" class="palestine" d="M145 185 L178 190 L185 245
-          L170 300 L145 285 L135 230 Z"/>
-        <path id="gaza" class="palestine" d="M115 300 L145 305 L145 340 L112 335 Z"/>
-        <text class="label" x="230" y="220">Israel</text>
-        <text class="label" x="140" y="260">Cisjordânia</text>
-        <text class="label" x="118" y="325">Gaza</text>
-      </svg>
-    </div>
-
-    <div class="legend">
-      <span><i class="dot" style="background:#4da3ff"></i>Israel</span>
-      <span><i class="dot" style="background:#55c271"></i>Territórios palestinos</span>
-      <span><i class="dot" style="background:#e6b84d"></i>Área em disputa/controle variável</span>
-    </div>
-
-    <div class="range-row">
-      <input id="slider" type="range" min="0" max="5" value="0" step="1">
-    </div>
-
-    <div class="timeline" id="timeline"></div>
-    <div class="controls">
-      <button id="play">▶ Reproduzir</button>
-      <button class="secondary" id="prev">← Anterior</button>
-      <button class="secondary" id="next">Próximo →</button>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2 id="title">1947 — Plano de Partilha da ONU</h2>
-    <p id="description"></p>
-    <p class="note">
-      <strong>Importante:</strong> este mapa é uma representação visual simplificada,
-      não um mapa cartográfico de fronteiras. “Controle” e “território” são conceitos
-      diferentes e mudaram em períodos distintos. A linha do tempo destaca eventos
-      históricos importantes sem afirmar uma única interpretação política do conflito.
-    </p>
-  </section>
-</main>
-
+<header><div class="wrap"><div class="topline"><div class="eyebrow">Atlas histórico · Oriente Médio</div><div class="live"><i></i> Linha do tempo interativa</div></div><h1>Israel e Palestina:<br><span>território, história e tempo</span></h1><p class="intro">Explore acontecimentos que marcaram a região por meio de uma linha do tempo e de um mapa geográfico interativo. Cada período traz contexto — sem reduzir uma história complexa a uma única perspectiva.</p></div></header>
+<main class="wrap">
+<div class="section-head"><div><h2>Explore o atlas</h2><p>Selecione um ano para navegar pelos principais marcos históricos.</p></div></div>
+<div class="layout">
+<section class="panel" id="mapPanel"><div class="map-head"><div class="map-label">Mapa da região<small>Territórios esquemáticos do período selecionado</small></div><div class="controls"><button class="btn" id="recenter">Centralizar</button><button class="btn" id="fullscreen">⛶ Tela cheia</button></div></div><div class="map-body"><div id="map" role="application" aria-label="Mapa interativo de Israel e dos territórios palestinos"></div><div class="map-resizer" id="mapResizer" role="separator" aria-label="Arraste para redimensionar o mapa e a legenda" aria-orientation="vertical" tabindex="0"></div><aside class="legend-side" aria-live="polite"><h3>Legenda do mapa</h3><p class="legend-intro" id="legendIntro">As cores indicam o contexto territorial do ano selecionado.</p><div class="legend-list" id="legendList"></div></aside></div><div class="map-foot"><span><strong>Nota cartográfica:</strong> os polígonos são aproximações educativas, não limites oficiais exatos.</span><span>Mapa-base © OpenStreetMap · nomes dos países em português · <a href="https://www.un.org/unispal/document/un-partition-plan-1947-and-un-armistice-lines-1949/" target="_blank" rel="noopener">mapa histórico da ONU (1947/1949)</a></span></div></section>
+<aside class="panel timeline"><div class="timeline-top"><h2>Em foco</h2><span class="counter" id="counter">01 / 06</span></div><div class="year" id="year">1947</div><div class="era" id="era">Partilha proposta</div><h3 class="event-title" id="eventTitle">Plano de partilha da ONU</h3><p class="description" id="description"></p><div class="context"><h3>Contexto do período</h3><div class="chips" id="chips"></div></div><input class="range" id="range" type="range" min="0" max="5" value="0" step="1" aria-label="Navegar pela linha do tempo"><div class="range-labels"><span>1947</span><span>2026</span></div><div class="navrow"><button class="btn" id="prev" aria-label="Evento anterior">← Anterior</button><button class="btn primary" id="play">▶ Reproduzir</button><button class="btn" id="next" aria-label="Próximo evento">Próximo →</button></div></aside>
+</div>
+<section class="events"><div class="section-head"><div><h2>Marcos históricos</h2><p>Toque em qualquer cartão para abrir o período.</p></div></div><div class="event-strip" id="eventStrip"></div></section>
+</main><footer><div class="wrap">Material educativo e introdutório. Datas e acontecimentos são apresentados de forma resumida; interpretações, experiências e narrativas sobre a região variam entre comunidades e fontes históricas.</div></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const events=[
- {year:1947,title:"1947 — Plano de Partilha da ONU",
-  desc:"A Assembleia Geral da ONU aprovou a Resolução 181, que recomendava a criação de um Estado judeu e de um Estado árabe, com um regime internacional para Jerusalém. O plano não foi implementado como proposto.",
-  israel:"partilha", palestina:"partilha"},
- {year:1949,title:"1949 — Armistícios após a guerra de 1948",
-  desc:"Os acordos de armistício de 1949 estabeleceram as linhas que ficaram conhecidas como Linha Verde. Israel controlava uma área maior do que a prevista no plano de partilha de 1947. A Cisjordânia ficou sob controle jordaniano e Gaza sob administração egípcia.",
-  israel:"1949", palestina:"1949"},
- {year:1967,title:"1967 — Guerra dos Seis Dias",
-  desc:"Israel passou a controlar a Cisjordânia, Jerusalém Oriental, Gaza, a Península do Sinai e as Colinas de Golã. O Sinai foi posteriormente devolvido ao Egito no contexto do tratado de paz de 1979.",
-  israel:"1967", palestina:"1967"},
- {year:1993,title:"1993 — Acordos de Oslo",
-  desc:"Os Acordos de Oslo iniciaram um processo de autogoverno palestino limitado e reorganizaram partes da Cisjordânia em diferentes áreas administrativas. O processo não resolveu definitivamente as questões de fronteiras e status final.",
-  israel:"oslo", palestina:"oslo"},
- {year:2005,title:"2005 — Retirada israelense de Gaza",
-  desc:"Israel retirou assentamentos e forças militares permanentes de dentro da Faixa de Gaza em 2005. O Hamas assumiu o controle interno da faixa em 2007, enquanto Israel e Egito mantiveram diferentes formas de controle sobre acessos e fronteiras.",
-  israel:"2005", palestina:"2005"},
- {year:2026,title:"2026 — Situação contemporânea",
-  desc:"A situação territorial e política permanece complexa, com Israel, a Autoridade Palestina e outros atores exercendo diferentes níveis de controle e administração em áreas distintas. O status definitivo de vários territórios continua sendo objeto de disputa.",
-  israel:"2026", palestina:"2026"}
+{year:1947,era:"Partilha proposta",title:"Plano de partilha da ONU",description:"A Assembleia Geral das Nações Unidas aprovou a Resolução 181, que recomendava dividir o Mandato Britânico da Palestina em um Estado judeu e um Estado árabe, com um regime internacional especial para Jerusalém. A proposta foi aceita pela liderança sionista e rejeitada por lideranças árabes palestinas e países árabes.",chips:["Resolução 181","Fim do Mandato Britânico","Proposta de dois Estados"]},
+{year:1949,era:"Armistícios e deslocamento",title:"Linhas de armistício",description:"Após a guerra de 1948, acordos de armistício estabeleceram linhas de controle entre Israel e países vizinhos. A Cisjordânia ficou sob controle jordaniano e a Faixa de Gaza sob administração egípcia. Centenas de milhares de palestinos tornaram-se refugiados ou foram deslocados durante a guerra; a memória palestina chama esse processo de Nakba.",chips:["Acordos de armistício","Refugiados palestinos","Linha Verde"]},
+{year:1967,era:"Guerra e ocupação",title:"Guerra dos Seis Dias",description:"Na guerra de junho de 1967, Israel tomou o controle da Cisjordânia, incluindo Jerusalém Oriental, da Faixa de Gaza, da Península do Sinai e das Colinas de Golã. A ocupação dos territórios palestinos e o futuro de Jerusalém tornaram-se questões centrais no conflito e na diplomacia internacional.",chips:["Cisjordânia","Jerusalém Oriental","Faixa de Gaza"]},
+{year:1993,era:"Negociações de paz",title:"Acordos de Oslo",description:"Israel e a Organização para a Libertação da Palestina trocaram cartas de reconhecimento mútuo e assinaram a Declaração de Princípios. Os acordos criaram a Autoridade Palestina e um processo de negociações transitórias, mas deixaram temas fundamentais — como fronteiras, assentamentos, refugiados e Jerusalém — para conversas futuras.",chips:["Reconhecimento mútuo","Autoridade Palestina","Negociações"]},
+{year:2005,era:"Retirada de assentamentos",title:"Retirada israelense de Gaza",description:"Israel retirou seus assentamentos e forças permanentes de dentro da Faixa de Gaza em 2005. O controle de acessos, espaço aéreo e marítimo, assim como a situação nas passagens de fronteira, permaneceu objeto de disputa. Em 2007, o Hamas assumiu o controle interno de Gaza após confrontos com o Fatah.",chips:["Retirada de Gaza","Hamas e Fatah","Passagens de fronteira"]},
+{year:2026,era:"Atualidade",title:"Um conflito ainda sem solução",description:"O futuro político da região continua marcado por questões de segurança, autodeterminação, governança, reconstrução, direitos humanos e reconhecimento. A situação muda ao longo do tempo; este marco representa o presente da linha do tempo, não uma afirmação de que as disputas históricas foram resolvidas.",chips:["Direitos humanos","Segurança e autodeterminação","Negociações futuras"]}
+];
+let active=0,timer=null;const $=id=>document.getElementById(id);
+const map=L.map('map',{scrollWheelZoom:true}).setView([31.65,35.05],8);
+// Mapa-base do OpenStreetMap: não exige chave de API. Os nomes dos países são acrescentados em português abaixo.
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+map.createPane('countryLabels'); map.getPane('countryLabels').style.zIndex=650; map.getPane('countryLabels').style.pointerEvents='none';
+const countryLabels=[
+ {name:'Líbano',coords:[33.72,35.65]},
+ {name:'Síria',coords:[33.25,36.15]},
+ {name:'Israel',coords:[31.35,34.82],className:'israel'},
+ {name:'Palestina',coords:[31.92,35.18],className:'palestina'},
+ {name:'Jordânia',coords:[31.15,36.15]},
+ {name:'Egito',coords:[30.55,33.05]}
+];
+countryLabels.forEach(c=>L.marker(c.coords,{pane:'countryLabels',interactive:false,icon:L.divIcon({className:'',html:'<div class="country-label '+(c.className||'')+'">'+c.name+'</div>',iconSize:[100,20],iconAnchor:[50,10]})}).addTo(map));
+// Camadas territoriais esquemáticas por período. São aproximações educativas,
+// não polígonos oficiais ou fronteiras legais de precisão.
+const historicLayers = [];
+const styleIsrael = {color:'#9c627b',weight:2,fillColor:'#d6a3b8',fillOpacity:.48};
+const styleArab = {color:'#638c80',weight:2,fillColor:'#a8c8bb',fillOpacity:.48};
+const styleOccupied = {color:'#a78353',weight:2,fillColor:'#dec49d',fillOpacity:.5,dashArray:'5 4'};
+const styleLines = {color:'#5de0e6',weight:2,dashArray:'4 4',fillOpacity:0};
+const poly=(coords,style,name)=>L.polygon(coords,{...style,interactive:true}).bindTooltip(name,{sticky:true});
+const layersByYear = [
+  // 1947: representação simplificada das áreas propostas no plano da ONU.
+  [poly([[33.1,35.1],[32.7,35.5],[32.1,35.6],[31.7,35.4],[31.4,34.9],[31.8,34.5],[32.4,34.6],[32.8,34.8]],styleIsrael,'Área proposta para o Estado judeu (esquema)'),
+   poly([[32.7,35.5],[32.4,35.9],[31.8,35.8],[31.3,35.5],[30.9,34.9],[31.1,34.4],[31.6,34.3],[31.8,34.5],[31.7,35.4],[32.1,35.6]],styleArab,'Área proposta para o Estado árabe palestino (esquema)'),
+   poly([[31.82,35.16],[31.80,35.24],[31.73,35.24],[31.73,35.16]],{color:'#9b8a61',weight:2,fillColor:'#e4d7b4',fillOpacity:.75},'Jerusalém — regime internacional especial proposto (marcação ilustrativa)')],
+  // 1949: Israel dentro de linhas de armistício aproximadas; Gaza e Cisjordânia separadas.
+  [poly([[33.1,35.1],[32.7,35.5],[32.1,35.6],[31.7,35.4],[31.4,34.9],[31.0,34.5],[31.2,34.3],[31.7,34.3],[32.2,34.5],[32.7,34.7]],styleIsrael,'Israel após os armistícios de 1949 (esquema)'),
+   poly([[32.4,35.2],[32.2,35.4],[31.9,35.4],[31.7,35.2],[31.8,34.9],[32.0,34.9]],styleArab,'Cisjordânia sob controle jordaniano (esquema)'),
+   poly([[31.6,34.25],[31.3,34.25],[31.2,34.3],[31.5,34.35]],styleArab,'Faixa de Gaza sob administração egípcia (esquema)')],
+  // 1967: áreas tomadas por Israel destacadas separadamente.
+  [poly([[33.1,35.1],[32.7,35.5],[32.1,35.6],[31.7,35.4],[31.4,34.9],[31.0,34.5],[31.2,34.3],[31.7,34.3],[32.2,34.5],[32.7,34.7]],styleIsrael,'Israel dentro das linhas de armistício (esquema)'),
+   poly([[32.4,35.2],[32.2,35.4],[31.9,35.4],[31.7,35.2],[31.8,34.9],[32.0,34.9]],styleOccupied,'Cisjordânia e Jerusalém Oriental — ocupadas por Israel desde 1967 (esquema)'),
+   poly([[31.6,34.25],[31.3,34.25],[31.2,34.3],[31.5,34.35]],styleOccupied,'Faixa de Gaza — ocupada por Israel desde 1967 (esquema)'),
+   poly([[33.2,35.5],[33.0,35.9],[32.7,35.9],[32.6,35.6]],styleOccupied,'Colinas de Golã — tomadas em 1967 (esquema)'),
+   poly([[30.9,33.5],[29.5,33.8],[29.5,34.8],[30.7,34.9],[31.0,34.5]],styleOccupied,'Península do Sinai — tomada em 1967; devolvida ao Egito posteriormente (esquema)')],
+  // 1993: territórios palestinos e área da Cisjordânia, com Oslo contextualizado no painel.
+  [poly([[33.1,35.1],[32.7,35.5],[32.1,35.6],[31.7,35.4],[31.4,34.9],[31.0,34.5],[31.2,34.3],[31.7,34.3],[32.2,34.5],[32.7,34.7]],styleIsrael,'Israel (contorno esquemático)'),
+   poly([[32.4,35.2],[32.2,35.4],[31.9,35.4],[31.7,35.2],[31.8,34.9],[32.0,34.9]],styleArab,'Cisjordânia — áreas de autogoverno palestino estabelecidas por Oslo (esquema)'),
+   poly([[31.6,34.25],[31.3,34.25],[31.2,34.3],[31.5,34.35]],styleArab,'Faixa de Gaza — autogoverno palestino limitado (esquema)')],
+  // 2005: retirada de assentamentos e forças permanentes de dentro de Gaza.
+  [poly([[33.1,35.1],[32.7,35.5],[32.1,35.6],[31.7,35.4],[31.4,34.9],[31.0,34.5],[31.2,34.3],[31.7,34.3],[32.2,34.5],[32.7,34.7]],styleIsrael,'Israel (contorno esquemático)'),
+   poly([[32.4,35.2],[32.2,35.4],[31.9,35.4],[31.7,35.2],[31.8,34.9],[32.0,34.9]],styleArab,'Cisjordânia — controle e administração fragmentados (esquema)'),
+   poly([[31.6,34.25],[31.3,34.25],[31.2,34.3],[31.5,34.35]],styleArab,'Faixa de Gaza — Israel retirou assentamentos e forças permanentes internas em 2005')],
+  // 2026: foco nos territórios palestinos, sem sugerir que o controle atual seja uniforme.
+  [poly([[33.1,35.1],[32.7,35.5],[32.1,35.6],[31.7,35.4],[31.4,34.9],[31.0,34.5],[31.2,34.3],[31.7,34.3],[32.2,34.5],[32.7,34.7]],styleIsrael,'Israel — contorno geográfico aproximado'),
+   poly([[32.4,35.2],[32.2,35.4],[31.9,35.4],[31.7,35.2],[31.8,34.9],[32.0,34.9]],styleArab,'Cisjordânia — território palestino com controle fragmentado'),
+   poly([[31.6,34.25],[31.3,34.25],[31.2,34.3],[31.5,34.35]],styleArab,'Faixa de Gaza — território palestino; situação e controle mudam no tempo')]
 ];
 
-const slider=document.getElementById("slider");
-const year=document.getElementById("year");
-const subtitle=document.getElementById("subtitle");
-const title=document.getElementById("title");
-const description=document.getElementById("description");
-const timeline=document.getElementById("timeline");
-const play=document.getElementById("play");
-let timer=null;
-
-events.forEach((e,i)=>{
- const b=document.createElement("button");
- b.textContent=e.year;
- b.onclick=()=>show(i);
- timeline.appendChild(b);
+const politicalContext = [
+ {title:"Mandato Britânico da Palestina",government:"Administração britânica; ainda não existia o Estado de Israel nem um governo palestino soberano.",head:"Alto-comissário: Sir Alan Cunningham (1945–1948)",party:"Não se aplica como governo nacional israelense/palestino.",note:"A Resolução 181 da ONU recomendava a partilha; era uma proposta, não uma fronteira implementada."},
+ {title:"Israel / Jordânia / Egito",government:"Israel era uma república parlamentar. A Cisjordânia estava anexada/administrada pela Jordânia; Gaza era administrada pelo Egito.",head:"Israel: presidente Chaim Weizmann; primeiro-ministro David Ben-Gurion. Jordânia: rei Abdullah I. Egito: rei Farouk.",party:"Israel: Mapai liderava o governo; sistema parlamentar.",note:"As linhas de armistício de 1949 não eram, por si só, fronteiras internacionais definitivas."},
+ {title:"Israel e territórios ocupados",government:"Após a guerra de junho de 1967, Israel passou a ocupar a Cisjordânia, Jerusalém Oriental e Gaza, além do Sinai e das Colinas de Golã.",head:"Israel: presidente Zalman Shazar; primeiro-ministro Levi Eshkol. Egito: presidente Gamal Abdel Nasser. Jordânia: rei Hussein.",party:"Israel: alinhamento governista liderado pelo Mapai/Alinhamento.",note:"O Sinai foi devolvido ao Egito posteriormente; o status dos demais territórios permanece questão central."},
+ {title:"Processo de Oslo",government:"Israel era governado por uma coalizão liderada pelo Partido Trabalhista. A Autoridade Palestina começou a ser estabelecida a partir de 1994, com competências limitadas.",head:"Israel: presidente Ezer Weizman; primeiro-ministro Yitzhak Rabin. Liderança palestina: Yasser Arafat (OLP).",party:"Israel: Partido Trabalhista; palestinos: OLP/Fatah como principal força política.",note:"Em 1993, a Autoridade Palestina ainda não havia sido formalmente instalada; Oslo criou um processo transitório."},
+ {title:"Retirada israelense de Gaza",government:"Israel retirou assentamentos e forças permanentes de dentro de Gaza em 2005. A Autoridade Palestina administrava partes dos territórios; Hamas assumiu o controle interno de Gaza em 2007.",head:"Israel: presidente Moshe Katsav; primeiro-ministro Ariel Sharon. Autoridade Palestina: presidente Mahmoud Abbas; primeiro-ministro Ahmed Qurei durante a maior parte do ano.",party:"Israel: Likud e coalizão governista. Autoridade Palestina: Fatah; Hamas venceu as eleições legislativas de 2006.",note:"Não confundir a retirada de 2005 com o posterior controle interno do Hamas em Gaza."},
+ {title:"Situação contemporânea (2026)",government:"Israel é uma república parlamentar. A Autoridade Palestina administra partes da Cisjordânia; Gaza tem uma situação de governança e controle distinta e fragmentada.",head:"Israel: presidente Isaac Herzog; primeiro-ministro Benjamin Netanyahu. Autoridade Palestina: presidente Mahmoud Abbas; primeiro-ministro Mohammad Mustafa.",party:"Israel: Likud lidera a coalizão governista. Autoridade Palestina: Fatah está associado à liderança da Autoridade; Gaza tem estruturas de poder separadas.",note:"Situação política verificada em outubro de 2026; controle no terreno pode variar por local e data."}
+];
+function popupDetails(layerName){
+ const c=politicalContext[active]||politicalContext[0];
+ return `<div class="popup-meta">${events[active].year} · contexto político</div><b>${layerName}</b><div class="popup-row"><strong>Governo</strong><br>${c.government}</div><div class="popup-row"><strong>Presidentes e chefes de governo</strong><br>${c.head}</div><div class="popup-row"><strong>Partido / força política</strong><br>${c.party}</div><div class="popup-row"><strong>Nota histórica</strong><br>${c.note}</div>`;
+}
+layersByYear.flat().forEach(layer=>{
+ const label=(layer.getTooltip && layer.getTooltip()) ? layer.getTooltip().getContent() : "Área selecionada";
+ layer.bindPopup(()=>popupDetails(label),{maxWidth:290});
+ layer.on('click',()=>{});
 });
 
-function show(i){
- slider.value=i;
- const e=events[i];
- year.textContent=e.year;
- subtitle.textContent=e.title.split(" — ")[1];
- title.textContent=e.title;
- description.textContent=e.desc;
- document.querySelectorAll(".timeline button").forEach((b,j)=>b.classList.toggle("active",j===i));
-
- const a=document.getElementById("areaIsrael");
- const p=document.getElementById("areaPalestina");
- const g=document.getElementById("gaza");
-
- // Mudanças VISUAIS esquemáticas para comunicar a evolução sem fingir precisão cartográfica.
- if(i===0){a.setAttribute("d","M210 95 L270 105 L300 140 L285 185 L305 220 L280 260 L220 250 L205 210 L185 170 L195 125 Z"); p.style.opacity=1; g.style.opacity=1}
- if(i===1){a.setAttribute("d","M175 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=1; g.style.opacity=1}
- if(i===2){a.setAttribute("d","M155 62 L290 72 L335 115 L330 185 L365 240 L340 315 L355 390 L300 440 L205 420 L190 345 L160 290 L165 220 L140 160 Z"); p.style.opacity=.65; g.style.opacity=.65}
- if(i===3){a.setAttribute("d","M180 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=.8; g.style.opacity=.8}
- if(i===4){a.setAttribute("d","M180 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=1; g.style.opacity=1}
- if(i===5){a.setAttribute("d","M180 70 L270 82 L315 125 L305 180 L330 235 L300 300 L320 355 L285 405 L220 390 L205 330 L175 290 L180 230 L155 175 L170 125 Z"); p.style.opacity=1; g.style.opacity=1}
+const historicalGroup=L.layerGroup().addTo(map);
+const legendByYear = [
+ [
+  {color:'#d6a3b8',title:'Estado judeu proposto',detail:'Plano de partilha da ONU, 1947'},
+  {color:'#a8c8bb',title:'Estado árabe palestino proposto',detail:'Plano de partilha da ONU, 1947'},
+  {color:'#e4d7b4',title:'Jerusalém',detail:'Regime internacional especial proposto'}
+ ],
+ [
+  {color:'#d6a3b8',title:'Israel',detail:'Território dentro das linhas de armistício (esquema)'},
+  {color:'#a8c8bb',title:'Cisjordânia',detail:'Sob controle jordaniano em 1949'},
+  {color:'#a8c8bb',title:'Faixa de Gaza',detail:'Sob administração egípcia em 1949'}
+ ],
+ [
+  {color:'#d6a3b8',title:'Israel',detail:'Dentro das linhas de armistício anteriores a junho de 1967'},
+  {color:'#dec49d',title:'Territórios ocupados por Israel em 1967',detail:'Inclui Cisjordânia, Jerusalém Oriental e Gaza'},
+  {color:'#dec49d',title:'Sinai e Colinas de Golã',detail:'Tomados em 1967; o Sinai foi devolvido ao Egito posteriormente'}
+ ],
+ [
+  {color:'#d6a3b8',title:'Israel',detail:'Contorno aproximado'},
+  {color:'#a8c8bb',title:'Territórios palestinos',detail:'Autogoverno limitado em áreas após os Acordos de Oslo'},
+  {color:'#dec49d',title:'Controle e administração',detail:'Divididos em diferentes áreas e competências'}
+ ],
+ [
+  {color:'#d6a3b8',title:'Israel',detail:'Contorno aproximado'},
+  {color:'#a8c8bb',title:'Cisjordânia',detail:'Controle e administração fragmentados'},
+  {color:'#a8c8bb',title:'Faixa de Gaza',detail:'Retirada de assentamentos e forças permanentes internas israelenses em 2005'}
+ ],
+ [
+  {color:'#d6a3b8',title:'Israel',detail:'Contorno aproximado'},
+  {color:'#a8c8bb',title:'Cisjordânia',detail:'Território palestino; controle fragmentado'},
+  {color:'#a8c8bb',title:'Faixa de Gaza',detail:'Território palestino; situação e controle mudam no tempo'}
+ ]
+];
+function updateTerritory(i){
+ historicalGroup.clearLayers();
+ (layersByYear[i]||[]).forEach(layer=>layer.addTo(historicalGroup));
+ const labels=['Plano de partilha proposto pela ONU','Linhas de armistício de 1949','Territórios tomados por Israel em 1967','Territórios e autogoverno após Oslo','Após a retirada israelense de Gaza','Situação contemporânea — controle variável'];
+ const mapSub=document.querySelector('.map-label small'); if(mapSub) mapSub.textContent=labels[i]+' · áreas ilustrativas';
+ const legend=$('legendList');
+ if(legend) legend.innerHTML=(legendByYear[i]||[]).map(item=>'<div class="legend-item"><span class="legend-swatch" style="background:'+item.color+'"></span><span>'+item.title+'<small>'+item.detail+'</small></span></div>').join('');
+ const intro=$('legendIntro');
+ if(intro) intro.textContent=i===0?'Cores para as áreas propostas em 1947 — o plano não foi implementado como desenhado.':'As cores identificam áreas históricas esquemáticas; não significam que o controle político ou militar seja uniforme.';
 }
-slider.oninput=()=>show(Number(slider.value));
-document.getElementById("prev").onclick=()=>show((Number(slider.value)+events.length-1)%events.length);
-document.getElementById("next").onclick=()=>show((Number(slider.value)+1)%events.length);
-play.onclick=()=>{
- if(timer){clearInterval(timer);timer=null;play.textContent="▶ Reproduzir"}
- else{play.textContent="⏸ Pausar";timer=setInterval(()=>show((Number(slider.value)+1)%events.length),2200)}
-};
-show(0);
+const places=[
+{n:"Jerusalém",c:[31.7683,35.2137],t:"Cidade com significado religioso e político central para judeus, muçulmanos e cristãos."},
+{n:"Tel Aviv",c:[32.0853,34.7818],t:"Importante centro urbano e econômico de Israel."},
+{n:"Faixa de Gaza",c:[31.4167,34.3333],t:"Território palestino costeiro do Mediterrâneo."},
+{n:"Ramallah",c:[31.9038,35.2034],t:"Cidade da Cisjordânia que abriga importantes instituições da Autoridade Palestina."},
+{n:"Mar da Galileia",c:[32.819,35.583],t:"Lago de água doce no norte da região."},
+{n:"Mar Morto",c:[31.5,35.5],t:"Lago salgado situado no ponto mais baixo da superfície terrestre em terra firme."}
+];
+places.forEach(p=>L.marker(p.c,{icon:L.divIcon({className:'',html:'<div class="marker-dot"></div>',iconSize:[12,12],iconAnchor:[6,6]})}).addTo(map).bindPopup('<b>'+p.n+'</b><br>'+p.t));
+function render(i){active=(i+events.length)%events.length;const e=events[active];updateTerritory(active);$('year').textContent=e.year;$('era').textContent=e.era;$('eventTitle').textContent=e.title;$('description').textContent=e.description;$('counter').textContent=String(active+1).padStart(2,'0')+' / '+String(events.length).padStart(2,'0');$('range').value=active;$('chips').innerHTML=e.chips.map(c=>'<span class="chip">'+c+'</span>').join('');document.querySelectorAll('.event-card').forEach((el,j)=>{el.classList.toggle('active',j===active);el.setAttribute('aria-pressed',j===active?'true':'false')})}
+$('eventStrip').innerHTML=events.map((e,i)=>'<button class="event-card" data-i="'+i+'" aria-pressed="false"><span class="mini-year">'+e.year+'</span><span class="mini-title">'+e.title+'</span></button>').join('');
+$('eventStrip').addEventListener('click',ev=>{const b=ev.target.closest('[data-i]');if(b){stop();render(Number(b.dataset.i))}});
+$('range').addEventListener('input',e=>{stop();render(Number(e.target.value))});
+$('prev').addEventListener('click',()=>{stop();render(active-1)});$('next').addEventListener('click',()=>{stop();render(active+1)});
+function stop(){if(timer){clearInterval(timer);timer=null}$('play').textContent='▶ Reproduzir'}
+$('play').addEventListener('click',()=>{if(timer){stop();return}$('play').textContent='Ⅱ Pausar';timer=setInterval(()=>render(active+1),6500)});
+$('recenter').addEventListener('click',()=>map.flyTo([31.65,35.05],8,{duration:1.1}));
+$('fullscreen').addEventListener('click',async()=>{const el=$('mapPanel');try{if(!document.fullscreenElement){await el.requestFullscreen();$('fullscreen').textContent='⤢ Sair da tela cheia'}else{await document.exitFullscreen();$('fullscreen').textContent='⛶ Tela cheia'}setTimeout(()=>map.invalidateSize(),180)}catch(e){map.fitBounds([[29.4,33.8],[33.4,36.1]])}});
+document.addEventListener('fullscreenchange',()=>{setTimeout(()=>{const panel=$('mapPanel'),body=panel.querySelector('.map-body');if(!document.fullscreenElement){panel.style.removeProperty('--map-width');panel.style.removeProperty('--legend-width')}else{const w=body.getBoundingClientRect().width;const legend=Math.min(w*.42,Math.max(w*.28,window.innerWidth<700?180:280));panel.style.setProperty('--legend-width',legend+'px');panel.style.setProperty('--map-width',Math.max(0,w-legend-12)+'px')}map.invalidateSize()},180)});
+const resizer=$('mapResizer');let resizing=false;
+resizer.addEventListener('pointerdown',e=>{if(!document.fullscreenElement)return;resizing=true;resizer.setPointerCapture(e.pointerId);e.preventDefault()});
+resizer.addEventListener('pointermove',e=>{if(!resizing)return;const panel=$('mapPanel'),body=panel.querySelector('.map-body'),rect=body.getBoundingClientRect(),minMap=Math.min(180,rect.width*.3),minLegend=Math.min(145,rect.width*.25),legendWidth=Math.max(minLegend,Math.min(rect.width-minMap-12,rect.right-e.clientX));panel.style.setProperty('--legend-width',legendWidth+'px');panel.style.setProperty('--map-width',Math.max(0,rect.width-legendWidth-12)+'px');map.invalidateSize()});
+function endResize(){resizing=false}resizer.addEventListener('pointerup',endResize);resizer.addEventListener('pointercancel',endResize);
+resizer.addEventListener('keydown',e=>{if(!document.fullscreenElement)return;const panel=$('mapPanel'),body=panel.querySelector('.map-body'),rect=body.getBoundingClientRect(),current=parseFloat(getComputedStyle(panel).getPropertyValue('--legend-width'))||300;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();const next=Math.max(190,Math.min(rect.width-200,current+(e.key==='ArrowLeft'?-24:24)));panel.style.setProperty('--legend-width',next+'px');panel.style.setProperty('--map-width',Math.max(180,rect.width-next-12)+'px');map.invalidateSize()}});
+render(0);setTimeout(()=>map.invalidateSize(),250);window.addEventListener('resize',()=>map.invalidateSize());
 </script>
 </body>
 </html>
