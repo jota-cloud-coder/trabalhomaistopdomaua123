@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jogo do Tanque — versão corrigida</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#101820;color:#f5f2e8;font:16px system-ui,Arial,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:16px}
+main{width:min(100%,1000px)}header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}h1{font-size:clamp(20px,4vw,30px);margin:0}.sub{color:#b8c5cc;font-size:14px;margin-top:4px}.hud{display:flex;gap:10px;flex-wrap:wrap;font-weight:700}.pill{background:#263640;border:1px solid #3b515d;padding:8px 12px;border-radius:10px}#stage{position:relative;border:2px solid #526773;border-radius:14px;overflow:hidden;background:#18252b;box-shadow:0 14px 40px #0008}canvas{display:block;width:100%;height:auto;touch-action:none}#overlay{position:absolute;inset:0;background:#071017c9;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}#overlay.hidden{display:none}.panel{max-width:430px}.panel h2{font-size:clamp(24px,5vw,38px);margin:0 0 8px}.panel p{color:#d1dbe0;line-height:1.5}button{border:0;border-radius:10px;background:#f0b429;color:#172127;font-weight:800;padding:12px 18px;font-size:16px;cursor:pointer}button:hover{filter:brightness(1.08)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.help{color:#bdcbd1;font-size:14px;line-height:1.6}.mobile{display:none;grid-template-columns:repeat(3,56px);grid-template-rows:repeat(2,48px);gap:6px;justify-content:center;margin:12px auto}.mobile button{padding:0;font-size:20px;background:#304550;color:white;touch-action:none}.mobile .up{grid-column:2}.mobile .left{grid-column:1;grid-row:2}.mobile .down{grid-column:2;grid-row:2}.mobile .right{grid-column:3;grid-row:2}.mobile .fire{grid-column:3;grid-row:1;background:#a33b30}@media(max-width:650px){.mobile{display:grid}.sub{max-width:100%}}
+</style>
+</head>
+<body><main>
+<header><div><h1>🛡️ Batalha de Tanques</h1><div class="sub">Versão independente: abre sem bibliotecas externas.</div></div><div class="hud"><span class="pill">Pontos: <b id="score">0</b></span><span class="pill">Vidas: <b id="lives">3</b></span><span class="pill">Inimigos: <b id="left">0</b></span></div></header>
+<div id="stage"><canvas id="game" width="900" height="560" aria-label="Jogo de tanque"></canvas><div id="overlay"><div class="panel"><h2 id="overlayTitle">Pronto para a batalha?</h2><p id="overlayText">Destrua os tanques vermelhos e sobreviva o máximo que puder.</p><button id="start">▶ Começar jogo</button></div></div></div>
+<div class="actions"><button id="pause">⏸ Pausar</button><button id="restart">↻ Reiniciar</button><button id="full">⛶ Tela cheia</button></div>
+<div class="mobile" aria-label="Controles touch"><button class="up" data-key="ArrowUp">▲</button><button class="fire" data-key="Space">●</button><button class="left" data-key="ArrowLeft">◀</button><button class="down" data-key="ArrowDown">▼</button><button class="right" data-key="ArrowRight">▶</button></div>
+<p class="help"><b>Controles:</b> WASD ou setas para mover/virar · Espaço ou clique para atirar · P para pausar · Enter para começar. No celular, use os botões na tela.</p>
+</main>
+<script>
+(()=>{
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),overlay=document.getElementById('overlay');
+const scoreEl=document.getElementById('score'),livesEl=document.getElementById('lives'),leftEl=document.getElementById('left');
+const W=canvas.width,H=canvas.height,keys=new Set();let player,enemies,bullets,walls,particles,score,lives,running=false,paused=false,ended=false,last=0,spawnTimer=0;
+const rand=(a,b)=>Math.random()*(b-a)+a, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function makeWalls(){let a=[];for(let i=0;i<22;i++){let x=rand(90,W-90),y=rand(60,H-60);if(Math.hypot(x-W/2,y-H/2)>130)a.push({x,y,w:rand(28,60),h:rand(24,42)});}return a}
+function reset(){score=0;lives=3;player={x:W/2,y:H/2,angle:-Math.PI/2,cool:0,inv:1};enemies=[];bullets=[];particles=[];walls=makeWalls();for(let i=0;i<4;i++)spawnEnemy();running=false;paused=false;ended=false;updateHud();showOverlay('Pronto para a batalha?','Destrua os tanques vermelhos e sobreviva o máximo que puder.','▶ Começar jogo');draw()}
+function spawnEnemy(){let x,y;do{x=rand(35,W-35);y=rand(35,H-35)}while(Math.hypot(x-player.x,y-player.y)<210);enemies.push({x,y,angle:rand(0,Math.PI*2),cool:rand(.5,1.8),turn:rand(.4,1.5),speed:rand(48,72)})}
+function showOverlay(t,msg,btn){document.getElementById('overlayTitle').textContent=t;document.getElementById('overlayText').textContent=msg;document.getElementById('start').textContent=btn;overlay.classList.remove('hidden')}
+function hideOverlay(){overlay.classList.add('hidden')}
+function updateHud(){scoreEl.textContent=score;livesEl.textContent=lives;leftEl.textContent=enemies.length}
+function blocked(x,y,r){if(x<r||y<r||x>W-r||y>H-r)return true;return walls.some(w=>x+r>w.x&&x-r<w.x+w.w&&y+r>w.y&&y-r<w.y+w.h)}
+function moveTank(t,dt,forward,turn,r){t.angle+=turn*dt*2.7;if(forward){let nx=t.x+Math.cos(t.angle)*forward*dt,ny=t.y+Math.sin(t.angle)*forward*dt;if(!blocked(nx,t.y,r))t.x=nx;if(!blocked(t.x,ny,r))t.y=ny}}
+function shoot(t,team){if(t.cool>0)return;t.cool=team==='player'?.28:1.05;let speed=team==='player'?330:205;bullets.push({x:t.x+Math.cos(t.angle)*22,y:t.y+Math.sin(t.angle)*22,vx:Math.cos(t.angle)*speed,vy:Math.sin(t.angle)*speed,team,life:2})}
+function boom(x,y,color){for(let i=0;i<10;i++)particles.push({x,y,vx:rand(-100,100),vy:rand(-100,100),life:rand(.2,.55),color})}
+function update(dt){if(!running||paused||ended)return;player.cool=Math.max(0,player.cool-dt);player.inv=Math.max(0,player.inv-dt);let turn=(keys.has('ArrowRight')||keys.has('d')||keys.has('D')?1:0)-(keys.has('ArrowLeft')||keys.has('a')||keys.has('A')?1:0);let forward=(keys.has('ArrowUp')||keys.has('w')||keys.has('W')?1:0)-(keys.has('ArrowDown')||keys.has('s')||keys.has('S')?1:0);moveTank(player,dt,forward*150,turn,15);if(keys.has('Space'))shoot(player,'player');
+for(const e of enemies){e.cool-=dt;e.turn-=dt;if(e.turn<=0){e.angle+=rand(-1.5,1.5);e.turn=rand(.5,1.5)}let d=Math.hypot(player.x-e.x,player.y-e.y);if(d<300)e.angle=Math.atan2(player.y-e.y,player.x-e.x);let nx=e.x+Math.cos(e.angle)*e.speed*dt,ny=e.y+Math.sin(e.angle)*e.speed*dt;if(blocked(nx,ny,14)){e.angle+=rand(1,2.5)}else{e.x=nx;e.y=ny}if(d<420&&e.cool<=0)shoot(e,'enemy')}
+for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;let hit=b.life<=0||b.x<0||b.y<0||b.x>W||b.y>H||walls.some(w=>b.x>w.x&&b.x<w.x+w.w&&b.y>w.y&&b.y<w.y+w.h);if(!hit&&b.team==='player'){let idx=enemies.findIndex(e=>Math.hypot(e.x-b.x,e.y-b.y)<17);if(idx>=0){let e=enemies.splice(idx,1)[0];score+=100;boom(e.x,e.y,'#ff6457');hit=true}}else if(!hit&&b.team==='enemy'&&Math.hypot(player.x-b.x,player.y-b.y)<17&&player.inv<=0){lives--;player.inv=1.1;boom(player.x,player.y,'#ffd166');hit=true;if(lives<=0){ended=true;running=false;showOverlay('Fim de jogo','Pontuação: '+score+'. Tente novamente!','↻ Jogar de novo')}}if(hit)bullets.splice(i,1)}
+for(let i=particles.length-1;i>=0;i--){let p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;if(p.life<=0)particles.splice(i,1)}
+spawnTimer-=dt;if(spawnTimer<=0&&enemies.length<Math.min(9,3+Math.floor(score/300))){spawnEnemy();spawnTimer=2.5}if(enemies.length===0){spawnEnemy();spawnEnemy()}updateHud()}
+function tank(t,color){ctx.save();ctx.translate(t.x,t.y);ctx.rotate(t.angle);ctx.fillStyle=color;ctx.fillRect(-15,-12,30,24);ctx.fillStyle='#152027';ctx.fillRect(-17,-14,7,28);ctx.fillRect(10,-14,7,28);ctx.fillStyle=color==='#53d6a0'?'#d6fff0':'#ffd3cc';ctx.fillRect(0,-4,24,8);ctx.beginPath();ctx.arc(0,0,8,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.restore()}
+function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#1b2c30';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#294044';ctx.lineWidth=1;for(let x=0;x<W;x+=28){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}for(const w of walls){ctx.fillStyle='#8c9a9b';ctx.fillRect(w.x,w.y,w.w,w.h);ctx.strokeStyle='#c0cbca';ctx.strokeRect(w.x,w.y,w.w,w.h)}for(const b of bullets){ctx.fillStyle=b.team==='player'?'#ffe27a':'#ff8a65';ctx.beginPath();ctx.arc(b.x,b.y,4,0,Math.PI*2);ctx.fill()}for(const e of enemies)tank(e,'#e75b4f');if(player){if(player.inv>0&&Math.floor(player.inv*12)%2===0)ctx.globalAlpha=.45;tank(player,'#53d6a0');ctx.globalAlpha=1}for(const p of particles){ctx.globalAlpha=clamp(p.life*2,0,1);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,4,4)}ctx.globalAlpha=1}
+function loop(ts){let dt=Math.min((ts-last)/1000||0,.033);last=ts;update(dt);draw();requestAnimationFrame(loop)}
+document.getElementById('start').addEventListener('click',()=>{if(ended)reset();running=true;paused=false;hideOverlay();last=performance.now()});
+document.getElementById('pause').addEventListener('click',()=>{if(!running||ended)return;paused=!paused;if(paused)showOverlay('Jogo pausado','Clique em continuar para voltar à batalha.','▶ Continuar');else hideOverlay()});
+document.getElementById('restart').addEventListener('click',reset);
+document.getElementById('full').addEventListener('click',()=>{const el=document.getElementById('stage');if(!document.fullscreenElement)el.requestFullscreen?.();else document.exitFullscreen?.()});
+window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.key);if(e.code==='Space')keys.add('Space');if(e.key.toLowerCase()==='p'&&running){paused=!paused;if(paused)showOverlay('Jogo pausado','Pressione P ou clique para continuar.','▶ Continuar');else hideOverlay()}if(e.key==='Enter'&&(!running||paused)){running=true;paused=false;hideOverlay()}});
+window.addEventListener('keyup',e=>{keys.delete(e.key);if(e.code==='Space')keys.delete('Space')});window.addEventListener('blur',()=>keys.clear());
+canvas.addEventListener('pointerdown',()=>{if(running&&!paused)shoot(player,'player')});
+document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;const down=e=>{e.preventDefault();keys.add(k);if(k==='Space')keys.add('Space')},up=e=>{e.preventDefault();keys.delete(k)};b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('pointerleave',up)});
+reset();requestAnimationFrame(loop);
+})();
+</script></body></html>
