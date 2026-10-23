@@ -75,9 +75,9 @@ h1 span{background:linear-gradient(90deg,#ff9fd7,#c5a6ff 55%,#86d9f6);-webkit-ba
 .leaflet-popup-content .popup-row{padding-top:6px;margin-top:6px;border-top:1px solid #ffffff18}
 .leaflet-tooltip{background:#252a31;color:#f1eee8;border:1px solid #6b7075;border-radius:8px;box-shadow:0 8px 22px #0003;padding:8px 10px;white-space:normal;max-width:230px;font-size:11px;line-height:1.4}.hover-card b{color:#d3b4bf;display:block;font-size:12px;margin-bottom:3px}.hover-card small{color:#c0c2bf;display:block;font-size:10px;margin-top:3px}
 .leaflet-control-zoom a{background:#191a30!important;color:#fff!important;border-color:#45405f!important}
-.country-label{color:#263747;font:800 12px/1.1 Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.055em;text-align:center;white-space:nowrap;text-shadow:0 1px 0 #fff,1px 0 0 #fff,0 -1px 0 #fff,-1px 0 0 #fff,0 0 5px #fff;opacity:.92;pointer-events:none}
-.country-label.palestina{color:#76536c;font-size:11px}
-.country-label.israel{color:#8a5267;font-size:11px}
+.country-label{display:inline-block;background:rgba(248,240,222,.94);border:1px solid rgba(95,72,45,.58);border-radius:4px;padding:3px 5px;color:#3e4b43;font:700 10px/1.05 Montserrat,Arial,sans-serif;text-transform:uppercase;letter-spacing:.035em;text-align:center;white-space:nowrap;box-shadow:0 1px 4px rgba(40,28,15,.18);text-shadow:none;pointer-events:none}
+.country-label.palestina{color:#386b48;border-color:#5d8c66;font-size:9px;background:rgba(241,247,228,.97)}
+.country-label.israel{color:#245d91;border-color:#4e80a9;font-size:9px;background:rgba(235,244,250,.97)}
 @media(max-width:700px){.legend-item{padding:8px}.legend-list{gap:8px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 html{scroll-behavior:smooth}
@@ -127,18 +127,332 @@ footer{color:#a1a5a4}
 @media(max-width:700px){#mapPanel:fullscreen .map-body{grid-template-columns:minmax(0,var(--map-width,1fr)) 12px minmax(0,var(--legend-width,42vw))}#mapPanel:fullscreen .legend-list{display:flex;flex-direction:column}#mapPanel:fullscreen .legend-side{padding:10px}}
 @media (orientation:landscape) and (max-height:520px){#mapPanel:fullscreen .map-head{padding:7px 12px;gap:8px}#mapPanel:fullscreen .map-label{font-size:12px}#mapPanel:fullscreen .map-label small{font-size:10px}#mapPanel:fullscreen .btn{padding:6px 9px}#mapPanel:fullscreen .map-foot{padding:5px 10px;font-size:9px}#mapPanel:fullscreen .legend-side{padding:8px}#mapPanel:fullscreen .legend-side h3{font-size:10px}#mapPanel:fullscreen .legend-intro{margin-bottom:6px}#mapPanel:fullscreen .legend-item{padding:6px;font-size:10px}#mapPanel:fullscreen .legend-item small{font-size:9px}}
 
+
+
+/* Tema editorial: jornal impresso antigo, em sépia */
+:root{color-scheme:light;--bg:#c8b99e;--panel:#e0d3bc;--line:#756b5b;--text:#171512;--muted:#514b42;--gold:#5b3e2b}
+body{background-color:#c8b99e;background-image:repeating-linear-gradient(0deg,#5a463008 0,#5a463008 1px,transparent 1px,transparent 4px),radial-gradient(ellipse at 50% 0,#eee3d0 0,transparent 62%);background-attachment:fixed;color:#171512}
+header{border-bottom:3px double #171512;padding-top:28px}
+.topline{border:1px solid #171512;padding:9px 12px}
+.eyebrow{color:#29231d;font-size:11px;letter-spacing:.22em}
+.live{background:#d2c2a8;border:1px solid #29231d;color:#29231d;border-radius:0}
+.live i{background:#4c3829;box-shadow:none}
+h1{font-family:Georgia,'Times New Roman',serif;font-weight:500;letter-spacing:-.055em;text-transform:uppercase;font-size:clamp(34px,5.7vw,68px);max-width:100%;line-height:.98;margin:22px 0 14px}
+h1 span{color:#4d3728;background:none;-webkit-text-fill-color:#4d3728}
+.intro{color:#40392f;max-width:850px;font-family:Georgia,'Times New Roman',serif;font-size:17px}
+main{padding-top:22px}
+.section-head{border-bottom:1px solid #171512;padding-bottom:9px}
+.section-head h2,.timeline-top h2{font-family:Georgia,'Times New Roman',serif;text-transform:uppercase;letter-spacing:.06em;font-size:20px}
+.section-head p{color:#5c5144}
+.panel{background:#e3d7c2;border:1px solid #6e6252;border-radius:0;box-shadow:0 5px 0 #17151218}
+.panel:hover{border-color:#29231d;box-shadow:0 5px 0 #17151218}
+.map-head{background:#d2c2a8;border-bottom:1px solid #756b5b}
+.map-label{color:#171512}.map-label small{color:#51483d}
+.btn{background:#d4c5ac;color:#171512;border:1px solid #534638;border-radius:0}
+.btn:hover{background:#c5b394;border-color:#171512;box-shadow:none}
+.btn.primary{background:#30271f;color:#f2e7d4;border:1px solid #171512;box-shadow:none}
+.legend-side{background:#d5c6ad;border-left:1px solid #756b5b}
+.legend-side h3,.context h3{color:#4e4438}
+.legend-intro{color:#5c5144}
+.legend-item{color:#211c17;background:#e7dcc9;border:1px solid #c1b198;border-radius:0}
+.legend-item small{color:#615648}
+.map-foot{color:#50483d;border-top:1px solid #756b5b}
+.map-foot a{color:#493020}.map-foot strong{color:#211b15}
+.timeline{background:#e3d7c2}
+.year{color:#3d2b20;background:none;-webkit-text-fill-color:#3d2b20;font-family:Georgia,'Times New Roman',serif;font-weight:500;letter-spacing:-.04em}
+.era{color:#5b3e2b}
+.event-title{font-family:Georgia,'Times New Roman',serif;font-size:25px;color:#171512}
+.description{color:#393229}
+.context{border-top:1px solid #9d8e77}
+.counter{color:#33261b;border:1px solid #78644d;background:#d3c1a4;border-radius:0}
+.chip{border:1px solid #b4a184;background:#d8c7aa;color:#2c241c;border-radius:0}
+.range{accent-color:#5b3e2b}
+.range-labels{color:#5e5244}
+.event-card{background:#d9cbb4;border:1px solid #887963;border-radius:0;color:#171512;box-shadow:none}
+.event-card:hover{border-color:#171512;box-shadow:none}
+.event-card.active{background:#bfa989;border-color:#171512;box-shadow:inset 0 0 0 1px #171512}
+.event-card .mini-year{color:#4d3525}.event-card .mini-title{color:#342b22}
+footer{border-top:4px double #171512;color:#51483d;padding:18px 0 28px}
+.site-credits{display:grid;grid-template-columns:minmax(130px,230px) 1fr;gap:22px;align-items:center;padding-top:16px}
+.bk-mark{font-family:Georgia,'Times New Roman',serif;font-size:clamp(76px,12vw,132px);font-weight:900;letter-spacing:-.15em;line-height:.8;color:#100e0b;text-align:center;transform:rotate(-5deg);text-shadow:2px 1px 0 #c8b99e}
+.credits-label{font-size:12px;letter-spacing:.28em;text-transform:uppercase;font-weight:900;color:#171512;margin:0 0 12px;border-bottom:1px solid #171512;padding-bottom:8px}
+.credits-names{display:flex;flex-wrap:wrap;gap:7px 14px;color:#29231d;font-size:13px;font-weight:650}
+.credits-names span{white-space:nowrap}
+.footer-note{margin-top:18px;padding-top:10px;border-top:1px solid #9c8c73;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#f0e5d1;color:#171512}
+.leaflet-popup-content b{color:#4d3525}
+@media(max-width:560px){.topline{flex-direction:column;align-items:flex-start}.site-credits{grid-template-columns:1fr;gap:15px}.bk-mark{font-size:88px;text-align:left}.credits-names{gap:7px 11px}.credits-names span{white-space:normal}}
+
+
+/* Insetos desenhados em SVG: movimentos orgânicos, maiores e discretos como parte do papel antigo */
+#old-paper-crawlers{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:10000;isolation:isolate}
+#old-paper-crawlers .crawler{pointer-events:auto!important;cursor:pointer;touch-action:manipulation;}
+#old-paper-crawlers .crawler{position:absolute;top:-110px;display:block;opacity:0;filter:sepia(.5) saturate(.65) drop-shadow(1px 2px 1px #59432a55);transform-origin:center;will-change:transform,opacity;animation-duration:18s;animation-timing-function:linear;animation-iteration-count:infinite;animation-delay:var(--delay)}
+#old-paper-crawlers .creature-svg{display:block;width:clamp(82px,10vw,130px);height:auto;overflow:visible}
+#old-paper-crawlers .roach{left:1.5vw;--delay:0s;animation-name:roach-crawl}
+#old-paper-crawlers .gecko{right:1.2vw;--delay:5s;animation-name:gecko-crawl}
+#old-paper-crawlers .centipede{left:1vw;--delay:10s;animation-name:centipede-crawl}
+#old-paper-crawlers .roach .leg{animation:leg-scramble .24s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:top center}
+#old-paper-crawlers .roach .l2{animation-delay:-.12s}
+#old-paper-crawlers .gecko .gecko-limb{animation:gecko-step .42s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:top center}
+#old-paper-crawlers .gecko .limb-b{animation-delay:-.2s}#old-paper-crawlers .gecko .limb-c{animation-delay:-.1s}#old-paper-crawlers .gecko .limb-d{animation-delay:-.3s}
+#old-paper-crawlers .gecko .gecko-tail{transform-origin:45px 55px;animation:tail-sway .8s ease-in-out infinite alternate}
+#old-paper-crawlers .centipede .creature-svg{width:clamp(125px,15vw,190px)}
+#old-paper-crawlers .centi-body{transform-origin:90px 37px;animation:centi-undulate .55s ease-in-out infinite alternate}
+#old-paper-crawlers .centi-legs{animation:centi-legs .2s ease-in-out infinite alternate;transform-origin:center}
+body>header,body>main,body>footer{position:relative;z-index:2}
+@keyframes roach-crawl{0%{opacity:0;transform:translate(-7px,-8vh) rotate(-8deg)}5%{opacity:.94}15%{transform:translate(5px,10vh) rotate(2deg)}30%{transform:translate(-3px,28vh) rotate(-3deg)}45%{transform:translate(8px,47vh) rotate(4deg)}62%{transform:translate(-4px,66vh) rotate(-2deg)}80%{transform:translate(5px,86vh) rotate(3deg);opacity:.92}96%,100%{opacity:0;transform:translate(-3px,112vh) rotate(-4deg)}}
+@keyframes gecko-crawl{0%{opacity:0;transform:translate(8px,-8vh) rotate(5deg)}5%{opacity:.9}18%{transform:translate(-5px,13vh) rotate(-3deg)}34%{transform:translate(5px,32vh) rotate(4deg)}50%{transform:translate(-8px,51vh) rotate(-4deg)}67%{transform:translate(4px,70vh) rotate(3deg)}83%{transform:translate(-4px,91vh) rotate(-2deg);opacity:.88}96%,100%{opacity:0;transform:translate(4px,112vh) rotate(4deg)}}
+@keyframes centipede-crawl{0%{opacity:0;transform:translate(-6px,-8vh) rotate(-4deg)}5%{opacity:.94}16%{transform:translate(6px,12vh) rotate(3deg)}32%{transform:translate(-4px,30vh) rotate(-2deg)}48%{transform:translate(7px,49vh) rotate(3deg)}66%{transform:translate(-5px,69vh) rotate(-3deg)}82%{transform:translate(4px,89vh) rotate(2deg);opacity:.9}96%,100%{opacity:0;transform:translate(-4px,112vh) rotate(-3deg)}}
+@keyframes leg-scramble{from{transform:rotate(-17deg) translateY(-1px)}to{transform:rotate(18deg) translateY(2px)}}
+@keyframes gecko-step{from{transform:rotate(-11deg) translateY(-1px)}to{transform:rotate(13deg) translateY(2px)}}
+@keyframes tail-sway{from{transform:rotate(-9deg)}to{transform:rotate(11deg)}}
+@keyframes centi-undulate{from{transform:translateY(-2px) rotate(-1deg)}to{transform:translateY(2px) rotate(1deg)}}
+@keyframes centi-legs{from{transform:translateY(-1px) skewX(-2deg)}to{transform:translateY(1px) skewX(2deg)}}
+@media(max-width:700px){#old-paper-crawlers .roach{left:-22px}#old-paper-crawlers .gecko{right:-24px}#old-paper-crawlers .centipede{left:-38px}#old-paper-crawlers .creature-svg{width:clamp(72px,19vw,100px)}#old-paper-crawlers .centipede .creature-svg{width:clamp(115px,28vw,150px)}}
+@media(prefers-reduced-motion:reduce){#old-paper-crawlers{display:none}}
+
+
+/* Revisão: vista dorsal mais natural, com corpo e patas articuladas */
+#old-paper-crawlers .creature-svg{transform:rotate(90deg);transform-origin:50% 50%;filter:contrast(1.18) saturate(.78) sepia(.18) drop-shadow(2px 3px 2px #33241655)}
+#old-paper-crawlers .crawler{animation-timing-function:cubic-bezier(.42,0,.58,1);}
+#old-paper-crawlers .roach .creature-svg{width:clamp(125px,14vw,170px)}
+#old-paper-crawlers .gecko .creature-svg{width:clamp(120px,13vw,165px)}
+#old-paper-crawlers .centipede .creature-svg{width:clamp(165px,19vw,235px)}
+#old-paper-crawlers .roach .leg{transform-box:fill-box;transform-origin:50% 10%;animation:roach-leg-cycle .19s ease-in-out infinite alternate}
+#old-paper-crawlers .roach .leg.l2{animation-delay:-.095s}
+#old-paper-crawlers .gecko .gecko-limb{transform-box:fill-box;transform-origin:50% 15%;animation:gecko-leg-cycle .32s ease-in-out infinite alternate}
+#old-paper-crawlers .gecko .limb-b{animation-delay:-.16s}#old-paper-crawlers .gecko .limb-c{animation-delay:-.08s}#old-paper-crawlers .gecko .limb-d{animation-delay:-.24s}
+#old-paper-crawlers .gecko .gecko-tail{animation:tail-sway .65s ease-in-out infinite alternate}
+#old-paper-crawlers .centi-legs{transform-box:fill-box;transform-origin:center;animation:centi-wave .26s ease-in-out infinite alternate}
+#old-paper-crawlers .centi-body{animation:centi-body-wave .8s ease-in-out infinite alternate}
+@keyframes roach-leg-cycle{from{transform:rotate(-20deg) translateY(-1px)}to{transform:rotate(23deg) translateY(2px)}}
+@keyframes gecko-leg-cycle{from{transform:rotate(-15deg) translateY(-1px)}to{transform:rotate(17deg) translateY(2px)}}
+@keyframes centi-wave{from{transform:translateX(-1px) skewX(-4deg)}to{transform:translateX(1px) skewX(4deg)}}
+@keyframes centi-body-wave{from{transform:translateY(-1px) rotate(-1deg)}to{transform:translateY(1px) rotate(1deg)}}
+@media(max-width:700px){#old-paper-crawlers .roach .creature-svg{width:clamp(105px,24vw,135px)}#old-paper-crawlers .gecko .creature-svg{width:clamp(105px,23vw,140px)}#old-paper-crawlers .centipede .creature-svg{width:clamp(140px,32vw,180px)}}
+
+
+/* Acabamento inspirado na referência: papel amassado, vincos e bordas chamuscadas irregulares */
+body{
+  background-color:#d8c19a!important;
+  background-image:
+    radial-gradient(ellipse at 16% 12%,#fff8e4a8 0%,transparent 28%),
+    radial-gradient(ellipse at 78% 24%,#9a71453b 0%,transparent 24%),
+    radial-gradient(ellipse at 27% 61%,#fff2d35c 0%,transparent 31%),
+    radial-gradient(ellipse at 80% 82%,#89603b35 0%,transparent 27%),
+    /* vincos longos e diagonais do papel amassado */
+    linear-gradient(151deg,transparent 0 18%,#72553617 18.15%,#fff6df5a 18.5%,transparent 19.2%),
+    linear-gradient(28deg,transparent 0 34%,#7255361c 34.15%,#fff6df62 34.6%,transparent 35.2%),
+    linear-gradient(112deg,transparent 0 46%,#65482b18 46.15%,#fff5df50 46.55%,transparent 47.2%),
+    linear-gradient(166deg,transparent 0 67%,#7255361a 67.15%,#fff6df50 67.55%,transparent 68.1%),
+    linear-gradient(74deg,transparent 0 78%,#65482b18 78.15%,#fff5df4a 78.55%,transparent 79.2%),
+    repeating-linear-gradient(7deg,#76542d0b 0,#76542d0b 1px,transparent 1px,transparent 4px),
+    repeating-linear-gradient(93deg,#704a2608 0,#704a2608 1px,transparent 1px,transparent 7px),
+    linear-gradient(135deg,#f0e3c9 0%,#e5d1ae 50%,#eee0c4 100%)!important;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0!important;opacity:.9!important;
+  background-image:
+    /* linhas de dobra, com luz de um lado e sombra do outro */
+    linear-gradient(117deg,transparent 0 12%,#4f351d16 12.08%,#fff8e54d 12.25%,transparent 12.65%),
+    linear-gradient(22deg,transparent 0 24%,#5d40241c 24.08%,#fff7df50 24.24%,transparent 24.7%),
+    linear-gradient(143deg,transparent 0 39%,#52371f19 39.1%,#fff6df4d 39.3%,transparent 39.8%),
+    linear-gradient(8deg,transparent 0 55%,#52371f17 55.1%,#fff6df45 55.3%,transparent 55.8%),
+    linear-gradient(132deg,transparent 0 72%,#52371f19 72.1%,#fff6df50 72.3%,transparent 72.8%),
+    linear-gradient(171deg,transparent 0 87%,#52371f18 87.1%,#fff6df45 87.3%,transparent 87.8%),
+    /* manchas de café com anéis quebrados e respingos */
+    radial-gradient(ellipse 88px 43px at 14% 19%,transparent 48%,#81512735 51%,#a06d3a2b 55%,transparent 65%),
+    radial-gradient(ellipse 61px 29px at 14% 19%,transparent 49%,#75451f28 54%,transparent 66%),
+    radial-gradient(ellipse 110px 51px at 86% 36%,transparent 47%,#8c5a2d2c 51%,#9b6b3a20 57%,transparent 66%),
+    radial-gradient(ellipse 44px 24px at 84% 78%,#89562925 0%,#a77b4820 38%,transparent 73%),
+    radial-gradient(ellipse at 0% 0%,#30180b70 0%,#61371c3d 2%,transparent 9%),
+    radial-gradient(ellipse at 100% 0%,#30180b6b 0%,#61371c3d 2.5%,transparent 10%),
+    radial-gradient(ellipse at 0% 100%,#30180b70 0%,#61371c40 3%,transparent 11%),
+    radial-gradient(ellipse at 100% 100%,#30180b70 0%,#61371c40 3%,transparent 11%),
+    radial-gradient(ellipse at 1% 32%,#4b2815a6 0%,#71432278 1.2%,#9a693e3a 2.2%,transparent 5.5%),
+    radial-gradient(ellipse at 99% 67%,#4b2815a0 0%,#71432270 1.1%,#9a693e35 2.3%,transparent 5.8%);
+  background-size:100% 100%;mix-blend-mode:multiply;
+}
+/* Queimado como folha chamuscada: recortes orgânicos, borda preta e halo ocre */
+body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.94;
+  background:
+    radial-gradient(ellipse 7% 2.2% at 5% 0%,#251207d9 0%,#4c2915bd 38%,#9a673d75 66%,transparent 100%),
+    radial-gradient(ellipse 5% 2.8% at 19% 0%,#2a1609c9 0%,#70432185 50%,transparent 100%),
+    radial-gradient(ellipse 8% 2.5% at 39% 0%,#2c170bc7 0%,#89572f70 49%,transparent 100%),
+    radial-gradient(ellipse 6% 2.5% at 66% 0%,#291508d1 0%,#85532d82 52%,transparent 100%),
+    radial-gradient(ellipse 9% 3% at 91% 0%,#251207df 0%,#4c2915b8 42%,#9a673d75 70%,transparent 100%),
+    radial-gradient(ellipse 5% 3% at 0% 12%,#251207d9 0%,#4c2915bd 38%,#9a673d75 66%,transparent 100%),
+    radial-gradient(ellipse 4% 4% at 0% 31%,#2b170ad4 0%,#704321a3 43%,#a7754770 65%,transparent 100%),
+    radial-gradient(ellipse 6% 3% at 0% 55%,#251207df 0%,#5b321bb8 40%,#a7754770 68%,transparent 100%),
+    radial-gradient(ellipse 7% 3% at 0% 83%,#251207d9 0%,#4c2915bd 38%,#9a673d75 66%,transparent 100%),
+    radial-gradient(ellipse 6% 3% at 0% 100%,#251207e0 0%,#4c2915c2 40%,#9a673d80 70%,transparent 100%),
+    radial-gradient(ellipse 7% 2.7% at 100% 8%,#251207df 0%,#4c2915b8 42%,#9a673d75 70%,transparent 100%),
+    radial-gradient(ellipse 4% 4% at 100% 27%,#2b170ad4 0%,#704321a3 43%,#a7754770 65%,transparent 100%),
+    radial-gradient(ellipse 6% 3% at 100% 49%,#251207df 0%,#5b321bb8 40%,#a7754770 68%,transparent 100%),
+    radial-gradient(ellipse 5% 4% at 100% 72%,#2b170ad4 0%,#704321a3 43%,#a7754770 65%,transparent 100%),
+    radial-gradient(ellipse 8% 3% at 100% 100%,#251207e0 0%,#4c2915c2 40%,#9a673d80 70%,transparent 100%),
+    radial-gradient(ellipse 7% 2.5% at 12% 100%,#251207d9 0%,#4c2915bd 38%,#9a673d75 66%,transparent 100%),
+    radial-gradient(ellipse 5% 2.8% at 35% 100%,#2a1609c9 0%,#70432185 50%,transparent 100%),
+    radial-gradient(ellipse 8% 2.5% at 59% 100%,#2c170bc7 0%,#89572f70 49%,transparent 100%),
+    radial-gradient(ellipse 6% 2.5% at 82% 100%,#291508d1 0%,#85532d82 52%,transparent 100%),
+    linear-gradient(90deg,#321b0dd9 0%,#68402075 .45%,#a2714438 1.1%,transparent 4%,transparent 96%,#a2714438 98.9%,#68402075 99.55%,#321b0dd9 100%),
+    linear-gradient(180deg,#321b0dd0 0%,#68402068 .45%,#a2714430 1.2%,transparent 4%,transparent 96%,#a2714430 98.8%,#68402068 99.55%,#321b0dd0 100%);
+  mix-blend-mode:multiply;
+}
+@media(max-width:700px){body:before{opacity:.68!important}body:after{opacity:.82}}
+
+
+/* AMASSADOS BEM VISÍVEIS: vincos diagonais, dobras fundas e relevo de papel */
+body{
+ background-color:#d9c39e!important;
+ background-image:
+  linear-gradient(112deg,transparent 0 12%,#65432322 12.15%,#fff1d955 12.5%,transparent 13.1%),
+  linear-gradient(24deg,transparent 0 23%,#6745262b 23.15%,#fff4dc66 23.55%,transparent 24.1%),
+  linear-gradient(157deg,transparent 0 38%,#5e3c2026 38.15%,#fff3d75c 38.5%,transparent 39.2%),
+  linear-gradient(73deg,transparent 0 56%,#5e3c202b 56.1%,#fff3d76b 56.45%,transparent 57.1%),
+  linear-gradient(143deg,transparent 0 68%,#5e3c202b 68.12%,#fff3d76b 68.5%,transparent 69.1%),
+  linear-gradient(8deg,transparent 0 79%,#67452622 79.15%,#fff4dc60 79.5%,transparent 80.2%),
+  repeating-linear-gradient(34deg,transparent 0 68px,#6d4a2920 69px,#fff0d74a 71px,transparent 74px),
+  repeating-linear-gradient(126deg,transparent 0 93px,#6341201d 94px,#fff0d74a 96px,transparent 99px),
+  radial-gradient(ellipse at 14% 19%,#80532b36 0,transparent 18%),
+  radial-gradient(ellipse at 86% 36%,#80532b2e 0,transparent 20%),
+  radial-gradient(ellipse at 84% 78%,#80532b30 0,transparent 17%),
+  repeating-linear-gradient(7deg,#6b482512 0 1px,transparent 1px 4px),
+  linear-gradient(135deg,#f0e3c9 0%,#e5d1ae 50%,#eee0c4 100%)!important;
+}
+/* Dobras com sombra e luz cruzadas, como folha realmente amarrotada */
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:0!important;opacity:.95!important;
+ background-image:
+  linear-gradient(32deg,transparent 47.8%,#5a3a1f2d 48.05%,#fff4dd70 48.35%,transparent 48.8%),
+  linear-gradient(148deg,transparent 33.5%,#5a3a1f2b 33.75%,#fff4dd78 34.05%,transparent 34.5%),
+  linear-gradient(77deg,transparent 61.8%,#5a3a1f30 62.05%,#fff4dd72 62.35%,transparent 62.8%),
+  linear-gradient(116deg,transparent 18.5%,#5a3a1f28 18.75%,#fff4dd6b 19.05%,transparent 19.5%),
+  linear-gradient(4deg,transparent 72.8%,#5a3a1f2c 73.05%,#fff4dd70 73.35%,transparent 73.8%),
+  linear-gradient(171deg,transparent 55.8%,#5a3a1f25 56.05%,#fff4dd66 56.35%,transparent 56.8%),
+  repeating-linear-gradient(21deg,transparent 0 107px,#67452218 108px,#fff2d74d 110px,transparent 113px),
+  repeating-linear-gradient(111deg,transparent 0 127px,#67452218 128px,#fff2d74d 130px,transparent 133px),
+  radial-gradient(ellipse at 50% 50%,transparent 43%,#6e4a2820 78%,#54321d45 100%),
+  radial-gradient(ellipse 90px 45px at 14% 19%,transparent 48%,#81512730 51%,#a06d3a28 55%,transparent 64%),
+  radial-gradient(ellipse 105px 48px at 86% 36%,transparent 47%,#8c5a2d25 51%,#9b6b3a20 57%,transparent 66%);
+ background-size:100% 100%;mix-blend-mode:multiply;
+}
+
+
+/* Explosão com camada acima do mapa e animações forçadas para aparecer sempre */
+#map{position:relative;isolation:isolate;overflow:hidden}
+#map .history-bomb-layer{position:absolute;inset:0;z-index:9999;overflow:hidden;pointer-events:none;isolation:isolate}
+.history-bomb-large{position:absolute;width:58px;height:82px;top:-95px;z-index:3;display:block;animation:bomb-fall-large 1050ms cubic-bezier(.18,.7,.25,1) forwards}
+.history-bomb-large:before{content:"";position:absolute;left:13px;top:7px;width:32px;height:49px;border-radius:48%;background:linear-gradient(90deg,#171615,#777168 38%,#252320 82%);border:2px solid #111;box-shadow:inset 0 0 5px #bbb}
+.history-bomb-large:after{content:"";position:absolute;left:24px;top:1px;width:15px;height:13px;background:#6b665d;border-radius:3px}
+.history-bomb-large .trail{position:absolute;left:24px;top:43px;width:12px;height:42px;background:linear-gradient(#fff2c0dd,#ff7c28aa,transparent);filter:blur(4px)}
+.history-impact-large{position:absolute;display:block;width:8px;height:8px;z-index:2;pointer-events:none}
+.history-impact-large i{position:absolute;left:50%;top:50%;display:block;border-radius:50%;transform:translate(-50%,-50%)}
+.history-impact-large .flash{width:52px;height:52px;background:#fff5c4;box-shadow:0 0 35px 22px #fff1ad,0 0 75px 45px #ffb13d,0 0 110px 60px #e74a1c99;animation:blast-flash-big 850ms ease-out 850ms both}
+.history-impact-large .fireball{width:145px;height:145px;background:radial-gradient(circle,#fffbd7 0 8%,#ffe36a 17%,#ff9c32 35%,#ed4b1b 55%,#9d2514 68%,transparent 74%);filter:blur(1px);animation:blast-fire-big 1150ms ease-out 850ms both}
+.history-impact-large .smoke{width:180px;height:180px;background:radial-gradient(circle at 38% 35%,#b9aa94ed,#64584de8 43%,#332d28aa 63%,transparent 74%);filter:blur(7px);animation:blast-smoke-big 1900ms ease-out 900ms both}
+.history-impact-large .shockwave{width:70px;height:70px;border:4px solid #ffe0a0;box-shadow:0 0 16px #ffb84d;animation:blast-wave-big 1100ms ease-out 850ms both}
+.history-impact-large .debris{width:8px;height:8px;background:#ffb84f;box-shadow:32px -24px 0 #ffbd53,-35px 14px 0 #f3d18b,18px 42px 0 #c65a25,-24px -34px 0 #f0c26a,48px 15px 0 #e87529,-12px 50px 0 #ffd46b;animation:blast-debris-big 950ms ease-out 870ms both}
+.history-impact-large .ring{width:42px;height:42px;border:3px solid #fff0b0;animation:blast-ring-big 1000ms ease-out 870ms both}
+@keyframes bomb-fall-large{0%{top:-95px;opacity:0;transform:translateX(-25px) rotate(-18deg) scale(.7)}10%{opacity:1}75%{transform:translateX(10px) rotate(9deg) scale(1.08)}100%{top:var(--impact-y);opacity:1;transform:translateX(0) rotate(0) scale(1)}}
+@keyframes blast-flash-big{0%{opacity:0;transform:translate(-50%,-50%) scale(.1)}10%{opacity:1;transform:translate(-50%,-50%) scale(1.4)}100%{opacity:0;transform:translate(-50%,-50%) scale(3.8)}}
+@keyframes blast-fire-big{0%{opacity:0;transform:translate(-50%,-50%) scale(.05)}12%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}45%{opacity:.95;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(.5)}}
+@keyframes blast-smoke-big{0%{opacity:0;transform:translate(-50%,-50%) scale(.1)}22%{opacity:.9}100%{opacity:0;transform:translate(-35%,-70%) scale(2.4)}}
+@keyframes blast-wave-big{0%{opacity:1;transform:translate(-50%,-50%) scale(.15)}100%{opacity:0;transform:translate(-50%,-50%) scale(8)}}
+@keyframes blast-debris-big{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-50%) scale(4.8)}}
+@keyframes blast-ring-big{0%{opacity:1;transform:translate(-50%,-50%) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) scale(7)}}
+.joao-s-trigger{font:inherit;color:inherit;border:0;background:transparent;padding:2px 5px;margin:-2px -5px;border-radius:4px;text-decoration:underline dotted;cursor:pointer}
+.joao-s-trigger:hover,.joao-s-trigger:focus-visible{background:#6d402522;outline:2px solid #8b241b}
+#joaoAlertModal{position:fixed;inset:0;z-index:20000;display:none;place-items:center;padding:18px;background:#080808d9;font-family:system-ui,sans-serif}
+#joaoAlertModal.open{display:grid}#joaoAlertModal:fullscreen{width:100vw;height:100vh;box-sizing:border-box}#joaoAlertModal:fullscreen .joao-alert-card{width:min(680px,90vw);padding:clamp(28px,6vh,64px) 28px}#joaoAlertModal:fullscreen .joao-alert-symbol{font-size:clamp(140px,25vh,260px)}
+.joao-alert-card{width:min(760px,96vw);background:#171717;color:#fff;border:2px solid #ed2727;border-radius:18px;padding:clamp(30px,5vh,64px) clamp(24px,5vw,56px);text-align:center;box-shadow:0 0 0 5px #ff252522,0 20px 80px #000b;animation:alert-pop .35s cubic-bezier(.2,.8,.2,1) both}
+.joao-alert-symbol{font-size:clamp(110px,18vh,190px);line-height:1;color:#ff3030;animation:alert-pulse .7s ease-in-out infinite alternate;text-shadow:0 0 22px #ff1616}
+.joao-alert-card h2{margin:22px 0 14px;font-size:clamp(30px,5vw,48px);line-height:1.2;color:#ff4747}
+.joao-alert-he{font-size:clamp(30px,4vw,42px);font-weight:800;direction:rtl;margin:10px 0}
+.joao-alert-translation{font-size:clamp(22px,3vw,30px);color:#eee;margin:8px 0 18px}
+.joao-alert-note{font-size:clamp(16px,2vw,20px);color:#bcbcbc;margin:0 0 16px}
+.joao-password-box{margin:24px auto 0;max-width:460px;text-align:left}.joao-password-box label{display:block;font-size:clamp(17px,2vw,21px);font-weight:700;margin-bottom:10px}.joao-password-row{display:flex;gap:10px}.joao-password-row input{min-width:0;flex:1;padding:15px 16px;border:2px solid #777;border-radius:9px;background:#fff;color:#111;font:600 18px system-ui,sans-serif;outline-offset:3px}.joao-password-row button{padding:14px 18px;border:0;border-radius:9px;background:#b21e24;color:white;font-size:17px;font-weight:800;cursor:pointer}.joao-password-error{min-height:1.4em;color:#ff6868;font-size:15px;margin:9px 0 0}
+/* Campo de senha mais destacado e visualmente polido */
+.joao-password-box{max-width:560px;margin:30px auto 0;padding:22px;background:linear-gradient(145deg,#242424,#111);border:1px solid #ff4a4a88;border-radius:16px;box-shadow:inset 0 1px 0 #ffffff12,0 12px 35px #0007;text-align:left}
+.joao-password-box label{font-size:clamp(18px,2.3vw,24px);line-height:1.4;color:#fff;text-align:center;margin:0 0 16px;display:block}
+.joao-password-row{display:flex;gap:10px;align-items:stretch}
+.joao-password-row input{width:100%;min-height:58px;padding:16px 18px;border:2px solid #b9a7a7;border-radius:12px;background:#fffdf9;color:#17100f;font:700 clamp(16px,2vw,20px) system-ui,sans-serif;box-shadow:inset 0 2px 5px #0001;transition:border-color .18s,box-shadow .18s}
+.joao-password-row input::placeholder{color:#756a64;opacity:1;font-weight:500}
+.joao-password-row input:focus{border-color:#ff4545;outline:none;box-shadow:0 0 0 4px #ff33332e,inset 0 2px 5px #0001}
+.joao-password-row button{min-width:124px;border-radius:12px;background:linear-gradient(135deg,#ff4242,#a90d18);box-shadow:0 5px 16px #a90d183d;transition:transform .15s,filter .15s}
+.joao-password-row button:hover{filter:brightness(1.12);transform:translateY(-1px)}
+@media(max-width:520px){.joao-password-box{padding:16px}.joao-password-row{flex-direction:column}.joao-password-row button{min-height:52px}}
+
+.joao-alert-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.joao-alert-actions button{border:0;border-radius:9px;padding:16px 24px;font-size:clamp(18px,2.4vw,24px);font-weight:800;cursor:pointer}
+#joaoSiren{background:#b21e24;color:#fff}#joaoClose{background:#eee;color:#171717}
+@keyframes alert-pulse{from{transform:scale(1);opacity:.8}to{transform:scale(1.12);opacity:1}}
+@keyframes alert-pop{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
 </style>
+
+
+
 </head>
 <body>
+<div id="old-paper-crawlers" aria-hidden="true">
+  <div class="crawler roach" role="presentation">
+    <svg viewBox="0 0 150 92" class="creature-svg" aria-hidden="true">
+      <g class="roach-legs" fill="none" stroke="#33251a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <path class="leg l1" d="M49 37 L31 22 L15 27 M57 44 L34 42 L19 55 M67 49 L48 64 L34 79"/><path class="leg l2" d="M82 36 L103 21 L121 25 M88 44 L111 43 L128 55 M84 51 L104 67 L119 80"/>
+        <path d="M49 36 L39 17 M59 45 L45 52 M70 49 L62 72 M83 36 L94 15 M91 45 L106 52 M84 50 L91 73" stroke="#6b4328" stroke-width="2.2"/>
+      </g>
+      <g stroke="#33251a" stroke-width="2">
+        <ellipse cx="70" cy="45" rx="42" ry="22" fill="#69452b" transform="rotate(-9 70 45)"/>
+        <path d="M37 42 Q49 23 78 25 Q101 29 108 43 Q83 59 52 59Z" fill="#8a5c36"/>
+        <path d="M46 36 Q68 24 94 35 M43 43 Q68 34 99 42 M47 50 Q69 43 94 49" fill="none" stroke="#b18453" stroke-width="2"/>
+        <ellipse cx="111" cy="39" rx="13" ry="11" fill="#4b3020"/>
+        <circle cx="119" cy="35" r="2.5" fill="#d9b77c" stroke="none"/>
+        <path d="M117 30 Q132 9 144 15 M114 29 Q125 5 132 7" fill="none" stroke="#3b291d" stroke-width="2"/>
+      </g>
+    </svg>
+  </div>
+  <div class="crawler gecko" role="presentation">
+    <svg viewBox="0 0 160 100" class="creature-svg" aria-hidden="true">
+      <g class="gecko-tail"><path d="M47 55 Q25 67 13 53 Q3 42 10 34 Q18 28 25 39 Q28 46 22 48" fill="none" stroke="#5b6041" stroke-width="11" stroke-linecap="round"/><path d="M47 55 Q25 67 13 53 Q3 42 10 34" fill="none" stroke="#8a8b61" stroke-width="4" stroke-linecap="round"/></g>
+      <g fill="#737650" stroke="#41432e" stroke-width="2.4" stroke-linejoin="round">
+        <path class="gecko-limb limb-a" d="M64 49 Q49 37 40 28 L28 29 L31 36 L42 36 L55 58Z"/><path class="gecko-limb limb-b" d="M82 55 Q96 38 111 35 L121 39 L117 45 L108 42 L91 66Z"/>
+        <path class="gecko-limb limb-c" d="M58 61 Q46 75 37 79 L25 75 L26 69 L37 72 L49 55Z"/><path class="gecko-limb limb-d" d="M84 61 Q97 76 110 78 L120 72 L117 66 L107 72 L92 54Z"/>
+        <ellipse cx="73" cy="54" rx="31" ry="17" transform="rotate(-12 73 54)"/>
+        <path d="M86 48 Q101 32 119 32 Q132 32 135 42 Q132 52 117 54 L94 59Z" fill="#85865b"/>
+        <path d="M54 47 Q71 37 88 46 M52 55 Q73 47 92 54 M59 63 Q75 57 88 62" fill="none" stroke="#b2ad7a" stroke-width="3"/>
+        <circle cx="126" cy="39" r="5" fill="#d8c68a"/><circle cx="127" cy="39" r="2.4" fill="#211d15" stroke="none"/>
+        <path d="M131 47 Q139 49 145 45" fill="none" stroke="#393a29" stroke-width="2"/>
+      </g>
+    </svg>
+  </div>
+  <div class="crawler centipede" role="presentation">
+    <svg viewBox="0 0 190 74" class="creature-svg" aria-hidden="true">
+      <g class="centi-legs" fill="none" stroke="#59321e" stroke-width="2.4" stroke-linecap="round">
+        <path d="M18 39 L8 53 L3 51 M31 41 L23 58 L17 58 M44 43 L39 60 L33 62 M57 44 L54 61 L48 64 M70 44 L69 61 L63 64 M83 43 L84 60 L78 63 M96 41 L99 57 L94 61 M109 39 L114 54 L109 58 M122 37 L129 50 L125 55 M135 34 L143 47 L140 52 M148 31 L157 42 L155 47 M161 27 L171 36 L170 41"/>
+        <path d="M18 36 L10 24 L4 25 M31 38 L25 21 L19 20 M44 40 L40 22 L34 20 M57 41 L55 23 L49 21 M70 41 L70 23 L64 21 M83 40 L85 22 L79 20 M96 38 L100 21 L94 19 M109 36 L115 20 L109 18 M122 34 L130 19 L124 17 M135 31 L144 18 L138 16 M148 28 L158 16 L152 14 M161 25 L172 15 L168 12"/>
+      </g>
+      <g class="centi-body" stroke="#3d2417" stroke-width="1.5">
+        <ellipse cx="15" cy="35" rx="9" ry="8" fill="#4a2818"/>
+        <ellipse cx="29" cy="38" rx="9" ry="9" fill="#824321"/><ellipse cx="43" cy="40" rx="9" ry="9" fill="#96512a"/><ellipse cx="57" cy="41" rx="9" ry="9" fill="#854321"/><ellipse cx="71" cy="41" rx="9" ry="9" fill="#9b552b"/><ellipse cx="85" cy="40" rx="9" ry="9" fill="#81401f"/><ellipse cx="99" cy="38" rx="9" ry="9" fill="#96502a"/><ellipse cx="113" cy="36" rx="9" ry="9" fill="#854321"/><ellipse cx="127" cy="33" rx="9" ry="9" fill="#99512a"/><ellipse cx="141" cy="30" rx="9" ry="9" fill="#854321"/><ellipse cx="155" cy="27" rx="9" ry="9" fill="#99512a"/><ellipse cx="169" cy="23" rx="9" ry="9" fill="#6b351c"/>
+        <path d="M9 32 Q15 25 21 32 M23 35 Q29 28 35 35 M37 37 Q43 30 49 37 M51 38 Q57 31 63 38 M65 38 Q71 31 77 38 M79 37 Q85 30 91 37 M93 35 Q99 28 105 35 M107 33 Q113 26 119 33 M121 30 Q127 23 133 30 M135 27 Q141 20 147 27 M149 24 Q155 17 161 24 M163 20 Q169 14 175 20" fill="none" stroke="#c18a50" stroke-width="1.5"/>
+      </g>
+      <path d="M10 30 Q4 18 1 18 M15 29 Q15 15 20 13" fill="none" stroke="#3d2417" stroke-width="1.5"/>
+    </svg>
+  </div>
+</div>
+
 <header><div class="wrap"><div class="topline"><div class="eyebrow">Atlas histórico · Oriente Médio</div><div class="live"><i></i> Linha do tempo interativa</div></div><h1>Israel e Palestina:<br><span>território, história e tempo</span></h1><p class="intro">Explore acontecimentos que marcaram a região por meio de uma linha do tempo e de um mapa geográfico interativo. Cada período traz contexto — sem reduzir uma história complexa a uma única perspectiva.</p></div></header>
 <main class="wrap">
 <div class="section-head"><div><h2>Explore o atlas</h2><p>Selecione um ano para navegar pelos principais marcos históricos.</p></div></div>
+<div class="speech-link-wrap"><button type="button" class="speech-link" id="openSpeeches">📜 Ver falas da apresentação <span>Cartolina · Maquete · Entrevista</span></button></div>
 <div class="layout">
 <section class="panel" id="mapPanel"><div class="map-head"><div class="map-label">Mapa da região<small>Territórios esquemáticos do período selecionado</small></div><div class="controls"><button class="btn" id="recenter">Centralizar</button><button class="btn" id="fullscreen">⛶ Tela cheia</button></div></div><div class="map-body"><div id="map" role="application" aria-label="Mapa interativo de Israel e dos territórios palestinos"></div><div class="map-resizer" id="mapResizer" role="separator" aria-label="Arraste para redimensionar o mapa e a legenda" aria-orientation="vertical" tabindex="0"></div><aside class="legend-side" aria-live="polite"><h3>Legenda do mapa</h3><p class="legend-intro" id="legendIntro">As cores indicam o contexto territorial do ano selecionado.</p><div class="legend-list" id="legendList"></div></aside></div><div class="map-foot"><span><strong>Nota cartográfica:</strong> os polígonos são aproximações educativas, não limites oficiais exatos.</span><span>Mapa-base © OpenStreetMap · nomes dos países em português · <a href="https://www.un.org/unispal/document/un-partition-plan-1947-and-un-armistice-lines-1949/" target="_blank" rel="noopener">mapa histórico da ONU (1947/1949)</a></span></div></section>
 <aside class="panel timeline"><div class="timeline-top"><h2>Em foco</h2><span class="counter" id="counter">01 / 06</span></div><div class="year" id="year">1947</div><div class="era" id="era">Partilha proposta</div><h3 class="event-title" id="eventTitle">Plano de partilha da ONU</h3><p class="description" id="description"></p><div class="context"><h3>Contexto do período</h3><div class="chips" id="chips"></div></div><input class="range" id="range" type="range" min="0" max="5" value="0" step="1" aria-label="Navegar pela linha do tempo"><div class="range-labels"><span>1947</span><span>2026</span></div><div class="navrow"><button class="btn" id="prev" aria-label="Evento anterior">← Anterior</button><button class="btn primary" id="play">▶ Reproduzir</button><button class="btn" id="next" aria-label="Próximo evento">Próximo →</button></div></aside>
 </div>
 <section class="events"><div class="section-head"><div><h2>Marcos históricos</h2><p>Toque em qualquer cartão para abrir o período.</p></div></div><div class="event-strip" id="eventStrip"></div></section>
-</main><footer><div class="wrap">Material educativo e introdutório. Datas e acontecimentos são apresentados de forma resumida; interpretações, experiências e narrativas sobre a região variam entre comunidades e fontes históricas.</div></footer>
+</main><footer><div class="wrap"><div class="site-credits"><div class="bk-mark" aria-label="Marca Jornal BK">BK</div><section aria-labelledby="creditsTitle"><h2 class="credits-label" id="creditsTitle">Realização</h2><div class="credits-names"><button type="button" class="joao-b-trigger" id="joaoBCredits">João B</button><button type="button" class="joao-s-trigger" id="joaoSAlert">João S</button><span>Victória C</span><span>Gabrieli L</span><span>Wendel</span><span>Kayky</span><span>Daniel</span><span>Arthur</span><span>Rhyan</span><span>Levi</span><span>Isaque</span><button type="button" class="asafe-game-trigger" id="asafeTankGame">Asafe</button></div></section></div><div class="footer-note"><span>Material educativo · Atlas histórico</span><span>Jornal BK</span></div></div></footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const events=[
@@ -160,16 +474,18 @@ const countryLabels=[
  {name:'Israel',coords:[31.35,34.82],className:'israel'},
  {name:'Palestina',coords:[31.92,35.18],className:'palestina'},
  {name:'Jordânia',coords:[31.15,36.15]},
- {name:'Egito',coords:[30.55,33.05]}
+ {name:'Egito',coords:[30.55,33.05]},
+ {name:'Chipre',coords:[34.95,33.05]},
+ {name:'Arábia Saudita',coords:[29.45,36.25]}
 ];
-countryLabels.forEach(c=>L.marker(c.coords,{pane:'countryLabels',interactive:false,icon:L.divIcon({className:'',html:'<div class="country-label '+(c.className||'')+'">'+c.name+'</div>',iconSize:[100,20],iconAnchor:[50,10]})}).addTo(map));
+countryLabels.forEach(c=>L.marker(c.coords,{pane:'countryLabels',interactive:false,icon:L.divIcon({className:'',html:'<div class="country-label '+(c.className||'')+'">'+c.name+'</div>',iconSize:[120,22],iconAnchor:[60,11]})}).addTo(map));
 // Camadas territoriais esquemáticas por período. São aproximações educativas,
 // não polígonos oficiais ou fronteiras legais de precisão.
 const historicLayers = [];
-const styleIsrael = {color:'#9c627b',weight:2,fillColor:'#d6a3b8',fillOpacity:.48};
-const styleArab = {color:'#638c80',weight:2,fillColor:'#a8c8bb',fillOpacity:.48};
-const styleOccupied = {color:'#a78353',weight:2,fillColor:'#dec49d',fillOpacity:.5,dashArray:'5 4'};
-const styleLines = {color:'#5de0e6',weight:2,dashArray:'4 4',fillOpacity:0};
+const styleIsrael = {color:'#1d5f96',weight:2.8,opacity:.98,fillColor:'#4b9bd3',fillOpacity:.68,lineJoin:'round'};
+const styleArab = {color:'#327547',weight:2.8,opacity:.98,fillColor:'#7dbb78',fillOpacity:.7,lineJoin:'round'};
+const styleOccupied = {color:'#a35a12',weight:3,opacity:1,fillColor:'#efb44f',fillOpacity:.72,dashArray:'6 3',lineJoin:'round'};
+const styleLines = {color:'#f8f1df',weight:3,opacity:1,dashArray:'5 4',fillOpacity:0};
 const poly=(coords,style,name)=>L.polygon(coords,{...style,interactive:true}).bindTooltip(name,{sticky:true});
 const layersByYear = [
   // 1947: representação simplificada das áreas propostas no plano da ONU.
@@ -227,34 +543,34 @@ layersByYear.flat().forEach(layer=>{
 const historicalGroup=L.layerGroup().addTo(map);
 const legendByYear = [
  [
-  {color:'#d6a3b8',title:'Estado judeu proposto',detail:'Plano de partilha da ONU, 1947'},
-  {color:'#a8c8bb',title:'Estado árabe palestino proposto',detail:'Plano de partilha da ONU, 1947'},
+  {color:'#4b9bd3',title:'Estado judeu proposto',detail:'Plano de partilha da ONU, 1947'},
+  {color:'#7dbb78',title:'Estado árabe palestino proposto',detail:'Plano de partilha da ONU, 1947'},
   {color:'#e4d7b4',title:'Jerusalém',detail:'Regime internacional especial proposto'}
  ],
  [
-  {color:'#d6a3b8',title:'Israel',detail:'Território dentro das linhas de armistício (esquema)'},
-  {color:'#a8c8bb',title:'Cisjordânia',detail:'Sob controle jordaniano em 1949'},
-  {color:'#a8c8bb',title:'Faixa de Gaza',detail:'Sob administração egípcia em 1949'}
+  {color:'#4b9bd3',title:'Israel',detail:'Território dentro das linhas de armistício (esquema)'},
+  {color:'#7dbb78',title:'Cisjordânia',detail:'Sob controle jordaniano em 1949'},
+  {color:'#7dbb78',title:'Faixa de Gaza',detail:'Sob administração egípcia em 1949'}
  ],
  [
-  {color:'#d6a3b8',title:'Israel',detail:'Dentro das linhas de armistício anteriores a junho de 1967'},
-  {color:'#dec49d',title:'Territórios ocupados por Israel em 1967',detail:'Inclui Cisjordânia, Jerusalém Oriental e Gaza'},
-  {color:'#dec49d',title:'Sinai e Colinas de Golã',detail:'Tomados em 1967; o Sinai foi devolvido ao Egito posteriormente'}
+  {color:'#4b9bd3',title:'Israel',detail:'Dentro das linhas de armistício anteriores a junho de 1967'},
+  {color:'#efb44f',title:'Territórios ocupados por Israel em 1967',detail:'Inclui Cisjordânia, Jerusalém Oriental e Gaza'},
+  {color:'#efb44f',title:'Sinai e Colinas de Golã',detail:'Tomados em 1967; o Sinai foi devolvido ao Egito posteriormente'}
  ],
  [
-  {color:'#d6a3b8',title:'Israel',detail:'Contorno aproximado'},
-  {color:'#a8c8bb',title:'Territórios palestinos',detail:'Autogoverno limitado em áreas após os Acordos de Oslo'},
-  {color:'#dec49d',title:'Controle e administração',detail:'Divididos em diferentes áreas e competências'}
+  {color:'#4b9bd3',title:'Israel',detail:'Contorno aproximado'},
+  {color:'#7dbb78',title:'Territórios palestinos',detail:'Autogoverno limitado em áreas após os Acordos de Oslo'},
+  {color:'#efb44f',title:'Controle e administração',detail:'Divididos em diferentes áreas e competências'}
  ],
  [
-  {color:'#d6a3b8',title:'Israel',detail:'Contorno aproximado'},
-  {color:'#a8c8bb',title:'Cisjordânia',detail:'Controle e administração fragmentados'},
-  {color:'#a8c8bb',title:'Faixa de Gaza',detail:'Retirada de assentamentos e forças permanentes internas israelenses em 2005'}
+  {color:'#4b9bd3',title:'Israel',detail:'Contorno aproximado'},
+  {color:'#7dbb78',title:'Cisjordânia',detail:'Controle e administração fragmentados'},
+  {color:'#7dbb78',title:'Faixa de Gaza',detail:'Retirada de assentamentos e forças permanentes internas israelenses em 2005'}
  ],
  [
-  {color:'#d6a3b8',title:'Israel',detail:'Contorno aproximado'},
-  {color:'#a8c8bb',title:'Cisjordânia',detail:'Território palestino; controle fragmentado'},
-  {color:'#a8c8bb',title:'Faixa de Gaza',detail:'Território palestino; situação e controle mudam no tempo'}
+  {color:'#4b9bd3',title:'Israel',detail:'Contorno aproximado'},
+  {color:'#7dbb78',title:'Cisjordânia',detail:'Território palestino; controle fragmentado'},
+  {color:'#7dbb78',title:'Faixa de Gaza',detail:'Território palestino; situação e controle mudam no tempo'}
  ]
 ];
 function updateTerritory(i){
@@ -276,7 +592,29 @@ const places=[
 {n:"Mar Morto",c:[31.5,35.5],t:"Lago salgado situado no ponto mais baixo da superfície terrestre em terra firme."}
 ];
 places.forEach(p=>L.marker(p.c,{icon:L.divIcon({className:'',html:'<div class="marker-dot"></div>',iconSize:[12,12],iconAnchor:[6,6]})}).addTo(map).bindPopup('<b>'+p.n+'</b><br>'+p.t));
-function render(i){active=(i+events.length)%events.length;const e=events[active];updateTerritory(active);$('year').textContent=e.year;$('era').textContent=e.era;$('eventTitle').textContent=e.title;$('description').textContent=e.description;$('counter').textContent=String(active+1).padStart(2,'0')+' / '+String(events.length).padStart(2,'0');$('range').value=active;$('chips').innerHTML=e.chips.map(c=>'<span class="chip">'+c+'</span>').join('');document.querySelectorAll('.event-card').forEach((el,j)=>{el.classList.toggle('active',j===active);el.setAttribute('aria-pressed',j===active?'true':'false')})}
+function playMapTransition(){
+ const mapEl=$('map'); if(!mapEl)return;
+ let layer=mapEl.querySelector('.history-bomb-layer');
+ if(!layer){layer=document.createElement('div');layer.className='history-bomb-layer';layer.setAttribute('aria-hidden','true');mapEl.appendChild(layer)}
+ layer.replaceChildren();
+ const bounds=mapEl.getBoundingClientRect(); if(bounds.width<20||bounds.height<20)return;
+ const x=50, y=53;
+ const blastScale=[1.45,1.15,.92,.74,.60,.48][active]||.48;
+ const bomb=document.createElement('span');bomb.className='history-bomb history-bomb-large';bomb.style.left=x+'%';bomb.style.setProperty('--impact-y',y+'%');bomb.style.setProperty('--blast-scale',String(blastScale));
+ const trail=document.createElement('i');trail.className='trail';bomb.appendChild(trail);layer.appendChild(bomb);
+ const impact=document.createElement('span');impact.className='history-impact history-impact-large';impact.style.left=x+'%';impact.style.top=y+'%';impact.style.setProperty('--blast-scale',String(blastScale));
+ ['flash','fireball','smoke','shockwave','debris','ring'].forEach(cls=>{const bit=document.createElement('i');bit.className=cls;impact.appendChild(bit)});layer.appendChild(impact);
+ // Force layout so every animation starts even after repeated rapid year changes.
+ void bomb.offsetHeight; bomb.style.animation='bomb-fall-large 1050ms cubic-bezier(.18,.7,.25,1) forwards';
+ impact.querySelector('.flash').style.animationDelay='850ms';
+ impact.querySelector('.fireball').style.animationDelay='850ms';
+ impact.querySelector('.smoke').style.animationDelay='900ms';
+ impact.querySelector('.shockwave').style.animationDelay='850ms';
+ impact.querySelector('.debris').style.animationDelay='870ms';
+ impact.querySelector('.ring').style.animationDelay='870ms';
+ window.setTimeout(()=>{if(layer.isConnected){layer.replaceChildren()}},3300);
+}
+function render(i){const previous=active;active=(i+events.length)%events.length;const e=events[active];document.documentElement.dataset.paperAge=String(active);document.body.dataset.paperAge=String(active);updateTerritory(active);$('year').textContent=e.year;$('era').textContent=e.era;$('eventTitle').textContent=e.title;$('description').textContent=e.description;$('counter').textContent=String(active+1).padStart(2,'0')+' / '+String(events.length).padStart(2,'0');$('range').value=active;$('chips').innerHTML=e.chips.map(c=>'<span class="chip">'+c+'</span>').join('');document.querySelectorAll('.event-card').forEach((el,j)=>{el.classList.toggle('active',j===active);el.setAttribute('aria-pressed',j===active?'true':'false')});if(previous!==active)playMapTransition()}
 $('eventStrip').innerHTML=events.map((e,i)=>'<button class="event-card" data-i="'+i+'" aria-pressed="false"><span class="mini-year">'+e.year+'</span><span class="mini-title">'+e.title+'</span></button>').join('');
 $('eventStrip').addEventListener('click',ev=>{const b=ev.target.closest('[data-i]');if(b){stop();render(Number(b.dataset.i))}});
 $('range').addEventListener('input',e=>{stop();render(Number(e.target.value))});
@@ -293,5 +631,94 @@ function endResize(){resizing=false}resizer.addEventListener('pointerup',endResi
 resizer.addEventListener('keydown',e=>{if(!document.fullscreenElement)return;const panel=$('mapPanel'),body=panel.querySelector('.map-body'),rect=body.getBoundingClientRect(),current=parseFloat(getComputedStyle(panel).getPropertyValue('--legend-width'))||300;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();const next=Math.max(190,Math.min(rect.width-200,current+(e.key==='ArrowLeft'?-24:24)));panel.style.setProperty('--legend-width',next+'px');panel.style.setProperty('--map-width',Math.max(180,rect.width-next-12)+'px');map.invalidateSize()}});
 render(0);setTimeout(()=>map.invalidateSize(),250);window.addEventListener('resize',()=>map.invalidateSize());
 </script>
-</body>
-</html>
+
+<div id="joaoAlertModal" role="dialog" aria-modal="true" aria-labelledby="joaoAlertTitle">
+ <div class="joao-alert-card"><div class="joao-alert-symbol" aria-hidden="true">⚠</div>
+ <h2 id="joaoAlertTitle">ALERTA DE PERIGO</h2>
+ <div class="joao-alert-he" lang="he">מחבלים פלשו למחשב שלך</div>
+ <p class="joao-alert-translation">“Terroristas invadiram seu computador.”</p>
+ <p class="joao-alert-note">SIMULAÇÃO EDUCATIVA · ALERTA VISUAL</p>
+ <form class="joao-password-box" id="joaoPasswordForm">
+  <label for="joaoPasswordInput">Para desligar o alarme, digite a senha super hiper mega secreta:</label>
+  <div class="joao-password-row"><input id="joaoPasswordInput" type="text" autocomplete="off" placeholder="Digite a senha super hiper mega secreta" aria-describedby="joaoPasswordError"><button type="submit">Confirmar</button></div>
+  <p class="joao-password-error" id="joaoPasswordError" role="status" aria-live="polite"></p>
+ </form>
+ </div>
+</div>
+<div id="joaoSuccessModal" role="status" aria-live="polite" aria-label="Varredura concluída">
+ <div class="success-confetti" aria-hidden="true"></div>
+ <div class="joao-success-card"><div class="joao-success-check" aria-hidden="true">✓</div><h2>VARREDURA ANTITERRORISTA COMPLETADA</h2><p>O sistema foi verificado com sucesso.</p><div class="success-stamp">✓  CONCLUÍDO</div></div>
+</div>
+<style>
+#joaoSuccessModal{position:fixed;inset:0;z-index:21000;display:none;place-items:center;overflow:hidden;padding:18px;background:rgba(7,18,12,.94);font-family:system-ui,sans-serif}
+#joaoSuccessModal.open{display:grid;animation:success-bg .35s ease-out both}
+.joao-success-card{position:relative;z-index:2;width:min(850px,96vw);padding:clamp(32px,6vw,76px) clamp(22px,5vw,64px);text-align:center;border:2px solid #64e6a0;border-radius:28px;color:#f4fff8;background:linear-gradient(145deg,#123b2a,#071d15);box-shadow:0 0 0 8px #54e69b16,0 0 70px #2dff8b35;animation:success-pop .6s cubic-bezier(.2,.9,.2,1) both}
+.joao-success-check{width:clamp(100px,18vw,170px);height:clamp(100px,18vw,170px);display:grid;place-items:center;margin:0 auto 28px;border-radius:50%;border:7px solid #79ffb1;color:#fff;background:radial-gradient(circle at 35% 25%,#72ffb0,#16854c 70%);font-size:clamp(68px,12vw,120px);font-weight:900;line-height:1;box-shadow:0 0 0 12px #4dff9c20,0 0 55px #42ff9a70;animation:success-check .75s ease-out both}
+.joao-success-card h2{font-size:clamp(28px,5vw,54px);line-height:1.12;margin:0 auto 18px;color:#a4ffc8;letter-spacing:.025em;text-wrap:balance}
+.joao-success-card p{font-size:clamp(18px,2.7vw,28px);margin:0 0 26px;color:#e4fff0}
+.success-stamp{display:inline-block;padding:12px 22px;border:2px solid #83ffb5;border-radius:999px;color:#a4ffc8;font-weight:900;letter-spacing:.16em;font-size:clamp(14px,2vw,19px)}
+.success-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}.success-confetti i{position:absolute;top:-24px;width:10px;height:18px;border-radius:2px;background:hsl(var(--hue),95%,62%);animation:confetti-fall linear forwards;transform:rotate(var(--spin));opacity:.95}.success-confetti i:nth-child(3n){width:7px;height:7px;border-radius:50%}.success-confetti i:nth-child(4n){width:5px;height:23px}
+@keyframes confetti-fall{to{top:110%;transform:translateX(var(--drift,35px)) rotate(var(--spin));opacity:.9}}
+@keyframes success-pop{from{transform:scale(.78) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+@keyframes success-check{0%{transform:scale(.2) rotate(-30deg);opacity:0}65%{transform:scale(1.13) rotate(8deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes success-bg{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.success-confetti i,.joao-success-check,.joao-success-card{animation-duration:.01ms!important}}
+</style>
+<script>
+(()=>{const trigger=document.getElementById('joaoSAlert'),modal=document.getElementById('joaoAlertModal'),form=document.getElementById('joaoPasswordForm'),input=document.getElementById('joaoPasswordInput'),error=document.getElementById('joaoPasswordError');if(!trigger||!modal||!form||!input)return;let ctx=null,oscillators=[];
+function stopSiren(){oscillators.forEach(o=>{try{o.stop()}catch(e){}});oscillators=[];if(ctx){try{ctx.close()}catch(e){}ctx=null}}
+function playSiren(){stopSiren();const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;ctx=new AC();const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sawtooth';gain.gain.value=.055;osc.connect(gain);gain.connect(ctx.destination);osc.start();let up=true;const interval=setInterval(()=>{if(!ctx){clearInterval(interval);return}osc.frequency.setTargetAtTime(up?960:620,ctx.currentTime,.08);up=!up},360);oscillators=[{stop:()=>{clearInterval(interval);osc.stop()}}]}
+function playSuccessTune(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;const audio=new AC();const notes=[523.25,659.25,783.99,1046.5,783.99,1046.5];let t=audio.currentTime+.05;notes.forEach((hz,i)=>{const o=audio.createOscillator(),g=audio.createGain();o.type='sine';o.frequency.value=hz;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.12,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+.22);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.24);t+=.19});setTimeout(()=>audio.close().catch(()=>{}),1800)}
+function showSuccess(){stopSiren();modal.classList.remove('open');if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});const done=document.getElementById('joaoSuccessModal');done.classList.add('open');const confetti=done.querySelector('.success-confetti');confetti.innerHTML='';for(let i=0;i<100;i++){const bit=document.createElement('i');bit.style.left=(Math.random()*100)+'%';bit.style.animationDelay=(Math.random()*1.8)+'s';bit.style.animationDuration=(2.3+Math.random()*2.2)+'s';bit.style.setProperty('--spin',(Math.random()*900-450)+'deg');bit.style.setProperty('--hue',Math.floor(Math.random()*360));confetti.appendChild(bit)}playSuccessTune();setTimeout(()=>{done.classList.remove('open');confetti.innerHTML='';trigger.focus()},6500)}
+function requestClose(){if(input.value.toLowerCase()!=='te amo diana'){error.textContent='Senha incorreta. O alarme continua ativo.';input.select();return}input.value='';error.textContent='';showSuccess()}
+form.addEventListener('submit',e=>{e.preventDefault();requestClose()});trigger.addEventListener('click',async()=>{modal.classList.add('open');input.value='';error.textContent='';try{await modal.requestFullscreen()}catch(e){}playSiren();input.focus()});modal.addEventListener('click',e=>{if(e.target===modal){input.focus()}});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open')){e.preventDefault();input.focus()}});
+})();
+</script>
+
+
+<div id="joaoBCreditsModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="creditsModalTitle">
+ <div class="credits-modal-card"><button type="button" class="credits-modal-close" id="closeCreditsModal" aria-label="Fechar créditos">×</button>
+ <p class="credits-kicker">JORNAL BK · BASTIDORES</p><h2 id="creditsModalTitle">Créditos do trabalho</h2>
+ <div class="credits-scroll"><div class="credits-roll">
+  <section class="credit-main"><h3>Diretor-geral</h3><p>João Santos</p></section>
+  <section class="credit-main"><h3>Diretor-adjunto</h3><p>João Borges</p></section>
+  <section><h3>Maquete</h3><p>Kayky · Asafe · Cesário</p></section>
+  <section><h3>Cartolina</h3><p>Isaque · Daniel · Rhyan</p></section>
+  <section><h3>Slide</h3><p>João Borges · João Santos</p></section>
+  <section><h3>Encenação super realista</h3><p>João Borges · João Santos</p></section>
+  <section><h3>Editor-chefe do jornal</h3><p>João Borges</p></section>
+  <section><h3>Editor-chefe do site</h3><p>João Santos</p></section>
+  <section><h3>Repórter lindão</h3><p>Kayky</p></section>
+  <section><h3>Figurantes femininas de Israel</h3><p>Gabrieli Lucena · Victoria Cristina</p></section>
+  <section><h3>Ajudante do diretor-geral</h3><p>Levi Nascimento</p></section>
+  <section class="credit-main"><h3>Uma produção</h3><p>JORNAL BK</p><p class="production-partner">Em parceria com o Colégio Mauá</p></section>
+  <section class="special-thanks"><p>Um agradecimento especial à professora Diana <span aria-label="coração">♥</span></p></section>
+ </div></div><p class="credits-endline">FIM DOS CRÉDITOS · OBRIGADO POR ASSISTIR</p></div>
+</div>
+<style>
+.credits-scroll section.special-thanks{padding:clamp(22px,4vh,38px) 4px;border-top:1px solid #98765455;text-align:center}.credits-scroll section.special-thanks p{font-size:clamp(22px,4vw,34px);font-weight:500;line-height:1.5;color:#86502b}.credits-scroll section.special-thanks span{color:#b32635;margin-left:.2em;font-size:1.05em}
+.credits-scroll section.credit-main p.production-partner{font-size:clamp(20px,3.4vw,30px);letter-spacing:0;margin-top:.7em;text-transform:none;font-weight:400;line-height:1.6;color:inherit}
+.joao-b-trigger{appearance:none;border:0;background:transparent;color:inherit;font:inherit;font-weight:inherit;padding:0;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+.joao-b-trigger:hover{color:#8b3f20}
+#joaoBCreditsModal{position:fixed;inset:0;z-index:22000;display:none;place-items:center;padding:18px;background:rgba(16,12,8,.86);backdrop-filter:blur(7px);font-family:'Libre Baskerville',Georgia,serif}
+#joaoBCreditsModal.open{display:grid;animation:creditsFade .25s ease-out}
+.credits-modal-card{position:relative;width:min(900px,97vw);height:min(94vh,1100px);overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,5vw,56px);border:1px solid #a8875d;border-radius:18px;background:radial-gradient(ellipse at 50% 0%,#fff8e9 0%,#f1e2c9 55%,#dfc6a1 100%);color:#25190f;box-shadow:0 24px 90px #0009}
+.credits-modal-close{position:absolute;top:10px;right:14px;border:0;background:transparent;color:#49301e;font:32px/1 system-ui;cursor:pointer}
+.credits-kicker{font:800 10px/1.5 Montserrat,Arial,sans-serif;letter-spacing:.22em;text-align:center;margin:0 0 8px;color:#79502f}
+.credits-modal-card h2{text-align:center;font-size:clamp(34px,6vw,58px);margin:0 20px 18px;line-height:1.1;text-transform:uppercase;letter-spacing:.035em;text-shadow:0 2px 0 #fff8}
+.credits-scroll{overflow:hidden;position:relative;flex:1;min-height:0;padding:0 6px 4px;mask-image:linear-gradient(transparent 0%,black 9%,black 88%,transparent 100%)}
+.credits-roll{animation:creditsRoll 42s linear 1 both;padding-top:8vh}
+.credits-roll:hover{animation-play-state:paused}
+.credits-scroll section{padding:clamp(20px,4vh,42px) 4px;border-top:1px solid #98765455;text-align:center}
+.credits-scroll section.credit-main{padding:clamp(30px,6vh,60px) 4px;border-top:1px solid #98765488}
+.credits-scroll section.credit-main h3{font-size:clamp(15px,2.5vw,22px);letter-spacing:.2em}
+.credits-scroll section.credit-main p{font-size:clamp(30px,6vw,54px);font-weight:700;line-height:1.2}
+.credits-scroll h3{font:800 clamp(13px,2vw,17px)/1.5 Montserrat,Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#86502b;margin:0 0 12px}
+.credits-scroll p{font-size:clamp(20px,3.4vw,30px);line-height:1.6;margin:0}
+.credits-endline{text-align:center;font:800 9px/1.5 Montserrat,Arial,sans-serif;letter-spacing:.15em;color:#79502f;margin:16px 0 0}
+@keyframes creditsFade{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+@keyframes creditsRoll{from{transform:translateY(0)}to{transform:translateY(-82%)}}
+@media(max-width:560px){.credits-modal-card{width:100%;height:96vh;padding:22px 16px}.credits-modal-card h2{font-size:clamp(27px,8vw,40px)}.credits-scroll section{padding:24px 4px}.credits-scroll section.credit-main p{font-size:clamp(27px,8vw,42px)}}
+@media(prefers-reduced-motion:reduce){#joaoBCreditsModal.open{animation:none}.credits-roll{animation:none}}
+</style>
+<script>
